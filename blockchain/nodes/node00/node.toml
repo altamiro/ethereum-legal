@@ -16,7 +16,7 @@ hosts = ["all"]
 unlock = ["0x00a1103c941fc2e1ef8177e6d9cc4657643f274b"]
 password = ["node.pwds"]
 
-# [mining]
-# usd_per_tx = "0"
-# engine_signer = "0x00a1103c941fc2e1ef8177e6d9cc4657643f274b"
-# reseal_on_txs = "none"
+[mining]
+usd_per_tx = "0"
+engine_signer = "0x00a1103c941fc2e1ef8177e6d9cc4657643f274b"
+reseal_on_txs = "none"
