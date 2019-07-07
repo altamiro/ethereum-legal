@@ -59,8 +59,11 @@
     "criar": "Criar",
     "cpf": "CPF",
     "nome": "Nome",
+    "nota_fiscal": "Nota Fiscal",
     "titulo_registar": "@:app.name - Nova Conta",
     "pesquisar": "Pesquisar",
-    "total": "Total"
+    "listar": "Listar",
+    "total": "Total",
+    "sem_registro": "Nenhum registro encontrado!"
   }
 }
