@@ -6,11 +6,8 @@
   },
   "search": "Pesquisar",
   "menu": {
-    "dashboard": { "text": "Dashboard", "icon": "dashboard", "link": "/dashboard" },
-    "audit": { "text": "Auditoria", "icon": "line_style", "link": "/auditoria" },
-    "user": "Usuário",
-    "ldap":  { "text": "Ldap", "icon": "account_circle", "link": "/user/ldap" },
-    "zimbra":  { "text": "Zimbra", "icon": "alternate_email", "link": "/user/zimbra" }
+    "dashboard": { "text": "Dashboard", "icon": "dashboard", "link": "/" },
+    "nota_fiscal": { "text": "Nota Fiscal", "icon": "line_style", "link": "/nota-fiscal" }
   },
   "login": {
     "title": "@:app.name - Autenticação",

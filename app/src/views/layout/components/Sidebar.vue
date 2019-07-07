@@ -63,14 +63,7 @@ export default {
     right: null,
     items: [
       i18n.t("menu.dashboard"),
-      i18n.t("menu.audit"),
-      {
-        icon: "keyboard_arrow_up",
-        "icon-alt": "keyboard_arrow_down",
-        text: i18n.t("menu.user"),
-        model: false,
-        children: [i18n.t("menu.ldap"), i18n.t("menu.zimbra")]
-      }
+      i18n.t("menu.nota_fiscal")
     ]
   }),
   computed: {

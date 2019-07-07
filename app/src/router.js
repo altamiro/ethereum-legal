@@ -13,9 +13,26 @@ export default new Router({
     { path: '/404', component: () => import('@/views/erro/404.vue'), },
     { path: '*', redirect: '/404' },
     {
+      path: '',
       component: Layout,
-      path: '/',
-      name: 'home'
+      redirect: 'dashboard',
+      children: [
+        {
+          path: 'dashboard',
+          name: 'Dashboard',
+          component: () => import('@/views/dashboard.vue')
+        },
+      ],
+    },
+    {
+      path: '/nota-fiscal',
+      component: Layout,
+      children: [
+        {
+          path: '/nota-fiscal',
+          component: () => import('@/views/notafiscal.vue'),
+        },
+      ],
     },
     {
       path: '/login',
