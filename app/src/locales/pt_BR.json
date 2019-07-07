@@ -46,11 +46,21 @@
     "yes": "Sim",
     "no": "Não"
   },
+  "pagination": {
+    "nextLabel": "Próximo",
+    "prevLabel": "Anterior",
+    "rowsPerPageLabel": "Linhas por página",
+    "pageLabel": "Página",
+    "ofLabel": "de",
+    "allLabel": "Todos"
+  },
   "label": {
     "voltar": "Voltar",
     "criar": "Criar",
     "cpf": "CPF",
     "nome": "Nome",
-    "titulo_registar": "@:app.name - Nova Conta"
+    "titulo_registar": "@:app.name - Nova Conta",
+    "pesquisar": "Pesquisar",
+    "total": "Total"
   }
 }
