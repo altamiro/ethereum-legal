@@ -12,8 +12,8 @@ hosts = ["all"]
 apis = ["web3", "eth", "net", "personal", "parity", "parity_set", "traces", "rpc", "parity_accounts"]
 
 [websockets]
-port = 8450
 hosts = ["all"]
+port = 8450
 
 [account]
 unlock = ["0x00a1103c941fc2e1ef8177e6d9cc4657643f274b"]
