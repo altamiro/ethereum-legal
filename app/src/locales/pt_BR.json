@@ -7,7 +7,7 @@
   "search": "Pesquisar",
   "menu": {
     "dashboard": { "text": "Dashboard", "icon": "dashboard", "link": "/" },
-    "nota_fiscal": { "text": "Nota Fiscal", "icon": "line_style", "link": "/nota-fiscal" }
+    "nota_fiscal": { "text": "Nota Fiscal", "icon": "line_style", "link": "/notafiscal" }
   },
   "login": {
     "title": "@:app.name - Autenticação",
