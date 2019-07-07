@@ -1,0 +1,39 @@
+.center {
+  text-align: center !important;
+}
+
+.vertical-center {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.vertical-left {
+  text-align: left !important;
+  vertical-align: middle !important;
+}
+
+.vertical-right {
+  text-align: right !important;
+  vertical-align: middle !important;
+}
+
+.left {
+  text-align: left !important;
+}
+
+.right {
+  text-align: right !important;
+}
+
+.strong {
+  font-weight: bold !important;
+}
+
+.menu_link {
+  text-decoration: none;
+  color: #000;
+}
+
+.menu_sub_title {
+  color: #0072a8;
+}

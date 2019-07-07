@@ -1,0 +1,59 @@
+{
+  "app": {
+    "name": "Ethereum Legal (NL)",
+    "footer": "Ⓒ {year} - @:app.name",
+    "logging": "Aguarde! Processando.."
+  },
+  "search": "Pesquisar",
+  "menu": {
+    "dashboard": { "text": "Dashboard", "icon": "dashboard", "link": "/dashboard" },
+    "audit": { "text": "Auditoria", "icon": "line_style", "link": "/auditoria" },
+    "user": "Usuário",
+    "ldap":  { "text": "Ldap", "icon": "account_circle", "link": "/user/ldap" },
+    "zimbra":  { "text": "Zimbra", "icon": "alternate_email", "link": "/user/zimbra" }
+  },
+  "login": {
+    "title": "@:app.name - Autenticação",
+    "cpf": "CPF",
+    "senha": "Senha",
+    "acessar": "Acessar",
+    "novo_registro": "Criar uma conta"
+  },
+  "logout": {
+    "title": "Sair do Sistema"
+  },
+  "erro": {
+    "title": "ERROR",
+    "conta": "Erro ao criar o endereço da conta. Favor verificar!",
+    "registrar": "Erro ao registrar o endereço no parity. Favor verificar!",
+    "create": "Erro ao inserir os dados. Favor verificar!",
+    "update": "Erro ao atualizar os dados. Favor verificar!",
+    "destroy": "Erro ao excluir os dados. Favor verificar!",
+    "first": "Erro ao tentar carregar os dados solicitados. Favor verificar!",
+    "401": "Você não tem autorização para acessar essa página.",
+    "404": "Página não encontrada!",
+    "obrigatorio": "Preenchimento Obrigatório.",
+    "email": "E-mail inválido!",
+    "cpf": "CPF inválido!",
+    "min_caractere_6": "Mínimo de 6 caracteres."
+  },
+  "message": {
+    "title": "SUCESSO",
+    "create": "Registro criado com sucesso.",
+    "update": "Registro atualizado com sucesso.",
+    "destroy": "Registro excluido com sucesso."
+  },
+  "confirm": {
+    "title": "AVISO",
+    "destroy": "Deseja excluir esse registro?",
+    "yes": "Sim",
+    "no": "Não"
+  },
+  "label": {
+    "voltar": "Voltar",
+    "criar": "Criar",
+    "cpf": "CPF",
+    "nome": "Nome",
+    "titulo_registar": "@:app.name - Nova Conta"
+  }
+}
