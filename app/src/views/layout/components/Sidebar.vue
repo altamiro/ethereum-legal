@@ -62,7 +62,7 @@ export default {
     mini: false,
     right: null,
     items: [
-      i18n.t("menu.dashboard"),
+      // i18n.t("menu.dashboard"),
       i18n.t("menu.nota_fiscal")
     ]
   }),

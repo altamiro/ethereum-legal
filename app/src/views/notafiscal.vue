@@ -9,20 +9,19 @@
             <v-text-field
               v-model="search"
               append-icon="search"
-              label="Search"
+              label="Pesquisar"
               single-line
               hide-details
             ></v-text-field>
-            <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
+            <v-btn color="primary" dark class="mb-2" v-on="on">Lançar Compra</v-btn>
           </v-card-title>
           <v-data-table :headers="headers" :items="desserts" :search="search">
             <template v-slot:items="props">
-              <td>{{ props.item.name }}</td>
-              <td class="text-xs-right">{{ props.item.calories }}</td>
-              <td class="text-xs-right">{{ props.item.fat }}</td>
-              <td class="text-xs-right">{{ props.item.carbs }}</td>
-              <td class="text-xs-right">{{ props.item.protein }}</td>
-              <td class="text-xs-right">{{ props.item.iron }}</td>
+              <td>{{ props.item.tipo }}</td>
+              <td>{{ props.item.data_compra }}</td>
+              <td>{{ props.item.valor_compra }}</td>
+              <td>{{ props.item.valor_tributo }}</td>
+              <td>{{ props.item.valor_credito }}</td>
             </template>
             <template v-slot:no-results>
               <v-alert
@@ -49,98 +48,26 @@ export default {
     return {
       search: "",
       headers: [
-        {
-          text: "Dessert (100g serving)",
-          align: "left",
-          sortable: false,
-          value: "name"
-        },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" }
+        { text: "Tipo", value: "tipo" },
+        { text: "Data da Compra", value: "data_compra" },
+        { text: "Valor da Compra", value: "valor_compra" },
+        { text: "Valor do Tributo", value: "valor_tributo" },
+        { text: "Valor do Credito", value: "valor_credito" }
       ],
       desserts: [
         {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%"
+          tipo: "Documento Fiscal",
+          data_compra: "01/02/2019",
+          valor_compra: 128.0,
+          valor_tributo: 15.6,
+          valor_credito: 1.50
         },
         {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%"
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%"
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%"
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%"
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%"
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%"
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%"
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%"
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%"
+          tipo: "Nota de Serviço",
+          data_compra: "15/02/2019",
+          valor_compra: 20.0,
+          valor_tributo: 10.6,
+          valor_credito: 0.50
         }
       ]
     };
