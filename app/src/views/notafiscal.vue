@@ -40,10 +40,10 @@
       </v-flex>
       <!-- /v-flex -->
 
-      <v-dialog v-if="dialog" v-model="dialog" persistent max-width="80%">
+      <v-dialog v-if="dialog" v-model="dialog" persistent max-width="600">
         <v-card>
           <v-card-title>
-            <span class="headline strong text-primary">Lançar Compra</span>
+            <span class="headline strong text-primary">Lançamento (NF)</span>
           </v-card-title>
           <v-divider></v-divider>
 
@@ -52,11 +52,52 @@
               <v-flex xs12>
                 <div class="form-row">
                   <div class="col-md-12">
-                    <div class="position-relative form-group">asdadasdasd</div>
+                    <div class="position-relative form-group">
+                      <v-select label="Tipo de Nota Fiscal" placeholder="Tipo de Nota Fiscal" v-model="form.data.tipo" :items="form.imposto" item-text="text" item-value="value" :rules="[() => !!form.data.data_nota || label.obrigatorio]" required></v-select>
+                    </div>
                   </div>
                 </div>
               </v-flex>
               <!-- /v-flex -->
+
+              <v-flex xs12>
+                <div class="form-row">
+                  <div class="col-md-12">
+                    <div class="position-relative form-group">
+                      <v-text-field type="text" mask="##/##/####" v-model="form.data.data_nota" :rules="[() => !!form.data.data_nota || label.obrigatorio]" label="Data da Nota Fiscal" placeholder="Data da Nota Fiscal" required></v-text-field>
+                    </div>
+                  </div>
+                </div>
+              </v-flex>
+              <!-- /v-flex -->
+
+              <v-flex xs12>
+                <div class="form-row">
+                  <div class="col-md-12">
+                    <div class="position-relative form-group">
+                      <v-text-field type="text" v-model="form.data.valor_nota" :rules="[() => !!form.data.valor_nota || label.obrigatorio]" label="Valor da Nota Fiscal" placeholder="Valor da Nota Fiscal" required></v-text-field>
+                    </div>
+                  </div>
+                </div>
+              </v-flex>
+              <!-- /v-flex -->
+
+              <v-flex xs12>
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <v-text-field type="text" v-model="form.data.valor_trubito" :rules="[() => !!form.data.valor_trubito || label.obrigatorio]" label="Tributo (18%)" placeholder="Tributo (18%)" required></v-text-field>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <v-text-field type="text" v-model="form.data.valor_credito" :rules="[() => !!form.data.valor_credito || label.obrigatorio]" label="Crédito (ICMS: 7.5 / ISS: 1.5)" placeholder="Crédito (ICMS: 7.5 / ISS: 1.5)" required></v-text-field>
+                    </div>
+                  </div>
+                </div>
+              </v-flex>
+              <!-- /v-flex -->
+
             </v-form>
             <!-- /v-form -->
           </v-card-text>
@@ -92,15 +133,26 @@
 <!-- /template -->
 
 <script>
+import i18n from "@/i18n";
+
 export default {
   name: "NotaFiscal",
   data() {
     return {
+      label: {
+        obrigatorio: i18n.t('erro.obrigatorio'),
+      },
       dialog: false,
       form: {
+        imposto: [
+          { text: i18n.t('label.icms'), value: 'icms' },
+          { text: i18n.t('label.iss'), value: 'iss' },
+        ],
         add_novo: false,
         data: {
-          no_atributo: null,
+          tipo: null,
+          data_nota: null,
+          valor_nota: null,
         }
       },
       search: "",

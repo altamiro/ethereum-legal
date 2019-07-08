@@ -64,6 +64,8 @@
     "pesquisar": "Pesquisar",
     "listar": "Listar",
     "total": "Total",
-    "sem_registro": "Nenhum registro encontrado!"
+    "sem_registro": "Nenhum registro encontrado!",
+    "icms": "Documento Fiscal (ICMS)",
+    "iss": "Serviço (ISS)"
   }
 }
