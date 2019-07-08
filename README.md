@@ -1,4 +1,4 @@
-### Ethereum Legal
+# Ethereum Legal
 
 Projeto da Pós - IESB
 
