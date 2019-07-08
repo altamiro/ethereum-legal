@@ -13,7 +13,12 @@
               single-line
               hide-details
             ></v-text-field>
-            <v-btn color="primary" dark class="mb-2" v-on="on">Lançar Compra</v-btn>
+            <b-btn
+              class="btn-shadow d-inline-flex align-items-center btn btn-primary p-2"
+              variant="primary"
+              @click="add"
+            >Lançar Compra</b-btn>
+            <!-- /b-btn -->
           </v-card-title>
           <v-data-table :headers="headers" :items="desserts" :search="search">
             <template v-slot:items="props">
@@ -34,6 +39,51 @@
         </v-card>
       </v-flex>
       <!-- /v-flex -->
+
+      <v-dialog v-if="dialog" v-model="dialog" persistent max-width="80%">
+        <v-card>
+          <v-card-title>
+            <span class="headline strong text-primary">Lançar Compra</span>
+          </v-card-title>
+          <v-divider></v-divider>
+
+          <v-card-text>
+            <v-form ref="form">
+              <v-flex xs12>
+                <div class="form-row">
+                  <div class="col-md-12">
+                    <div class="position-relative form-group">asdadasdasd</div>
+                  </div>
+                </div>
+              </v-flex>
+              <!-- /v-flex -->
+            </v-form>
+            <!-- /v-form -->
+          </v-card-text>
+
+          <v-divider></v-divider>
+          <v-card-actions>
+            <b-btn
+              class="btn-shadow d-inline-flex align-items-center btn btn-success p-2"
+              variant="success"
+              size="lg"
+              @click="save_close"
+            >Salvar</b-btn>&nbsp;&nbsp;&nbsp;
+            <b-btn
+              class="btn-shadow d-inline-flex align-items-center btn btn-primary p-2"
+              variant="primary"
+              size="lg"
+              @click="save_add"
+            >Salvar e adicionar outro(a)</b-btn>&nbsp;&nbsp;&nbsp;
+            <b-btn
+              class="btn-shadow d-inline-flex align-items-center btn btn-link p-2"
+              variant="link"
+              size="lg"
+              @click="close"
+            >Cancelar</b-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-layout>
     <!-- /v-layout -->
   </v-container>
@@ -46,6 +96,13 @@ export default {
   name: "NotaFiscal",
   data() {
     return {
+      dialog: false,
+      form: {
+        add_novo: false,
+        data: {
+          no_atributo: null,
+        }
+      },
       search: "",
       headers: [
         { text: "Tipo", value: "tipo" },
@@ -60,17 +117,38 @@ export default {
           data_compra: "01/02/2019",
           valor_compra: 128.0,
           valor_tributo: 15.6,
-          valor_credito: 1.50
+          valor_credito: 1.5
         },
         {
           tipo: "Nota de Serviço",
           data_compra: "15/02/2019",
           valor_compra: 20.0,
           valor_tributo: 10.6,
-          valor_credito: 0.50
+          valor_credito: 0.5
         }
       ]
     };
+  },
+  methods: {
+    add() {
+      this.dialog = true;
+    },
+    close() {
+      this.dialog = false;
+    },
+    save_add() {
+      this.form.add_novo = true;
+      this.save();
+    },
+    save_close() {
+      this.form.add_novo = false;
+      this.save();
+    },
+    save() {
+      if (this.$refs.form.validate()) {
+        console.log('asdasdasd')
+      } // end this.$refs.form.validate
+    },
   }
 };
 </script>
