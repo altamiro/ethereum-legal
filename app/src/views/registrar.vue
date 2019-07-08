@@ -97,7 +97,7 @@ export default {
                       if (response) {
                       
                         // cria o novo usuario para acesso.
-                        this.$store.dispatch("criar_usuario", this.form.data).then(response => {
+                        this.$store.dispatch("criar_usuario", this.form.data).then(() => {
                           swal(i18n.t("message.title"), i18n.t("message.create"), "success", { closeOnEsc: false, buttons: false,
                           timer: 2000 }).then(() => {
                             this.$store.commit('TOGGLE_LOADING');

@@ -103,14 +103,14 @@ export default {
 
               if (this.form.data.address == null){
                 let msg = 'Não existe conta cadastrada para esse CPF: ' + this.form.data.cpf + '. Deseja criar uma conta?';
-                swal(i18n.t("erro.title"), msg, "error", { closeOnEsc: false }).then((value) => {
+                swal(i18n.t("erro.title"), msg, "error", { closeOnEsc: false }).then(() => {
                   this.$store.commit('CLOSE_LOADING');
                   this.$router.push({ path: '/registrar' });
                 });   
               } else {
                 desbloquear(this.form.data).then(response => {
                   if (response) {
-                    this.$store.dispatch("listar_usuario", this.form.data).then(response => {
+                    this.$store.dispatch("listar_usuario", this.form.data).then(() => {
                       this.$store.commit('CLOSE_LOADING');
                       auth.localLogin(this.form.data);
                       this.$router.push({ path: '/' });

@@ -40,7 +40,7 @@
       </v-flex>
       <!-- /v-flex -->
 
-      <v-dialog v-if="dialog" v-model="dialog" persistent max-width="600">
+      <v-dialog v-if="dialog" v-model="dialog" persistent max-width="70%">
         <v-card>
           <v-card-title>
             <span class="headline strong text-primary">Lançamento (NF)</span>
@@ -53,7 +53,7 @@
                 <div class="form-row">
                   <div class="col-md-12">
                     <div class="position-relative form-group">
-                      <v-select label="Tipo de Nota Fiscal" placeholder="Tipo de Nota Fiscal" v-model="form.data.tipo" :items="form.imposto" item-text="text" item-value="value" :rules="[() => !!form.data.data_nota || label.obrigatorio]" required></v-select>
+                      <v-select label="Tipo de Nota Fiscal" @change="calcular" placeholder="Tipo de Nota Fiscal" v-model="form.data.tipo" :items="form.imposto" item-text="text" item-value="value" :rules="[() => !!form.data.tipo || label.obrigatorio]" required></v-select>
                     </div>
                   </div>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="form-row">
                   <div class="col-md-12">
                     <div class="position-relative form-group">
-                      <v-text-field type="text" mask="##/##/####" v-model="form.data.data_nota" :rules="[() => !!form.data.data_nota || label.obrigatorio]" label="Data da Nota Fiscal" placeholder="Data da Nota Fiscal" required></v-text-field>
+                      <v-text-field type="text" return-masked-value mask="##/##/####" v-model="form.data.data" :rules="[() => !!form.data.data || label.obrigatorio]" label="Data da Nota Fiscal" placeholder="Data da Nota Fiscal" required></v-text-field>
                     </div>
                   </div>
                 </div>
@@ -75,7 +75,7 @@
                 <div class="form-row">
                   <div class="col-md-12">
                     <div class="position-relative form-group">
-                      <v-text-field type="text" v-model="form.data.valor_nota" :rules="[() => !!form.data.valor_nota || label.obrigatorio]" label="Valor da Nota Fiscal" placeholder="Valor da Nota Fiscal" required></v-text-field>
+                      <v-text-field type="text" @blur="calcular" v-model="form.data.valor" :rules="[() => !!form.data.valor || label.obrigatorio]" label="Valor da Nota Fiscal" placeholder="Valor da Nota Fiscal" required></v-text-field>
                     </div>
                   </div>
                 </div>
@@ -86,12 +86,12 @@
                 <div class="form-row">
                   <div class="col-md-6">
                     <div class="position-relative form-group">
-                      <v-text-field type="text" v-model="form.data.valor_trubito" :rules="[() => !!form.data.valor_trubito || label.obrigatorio]" label="Tributo (18%)" placeholder="Tributo (18%)" required></v-text-field>
+                      <v-text-field type="text" readonly v-model="form.data.tributo" :rules="[() => !!form.data.tributo || label.obrigatorio]" label="Valor do Tributo (ICMS: 18% / ISS: 5%)" placeholder="Valor do Tributo (ICMS: 18% / ISS: 5%)" required></v-text-field>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="position-relative form-group">
-                      <v-text-field type="text" v-model="form.data.valor_credito" :rules="[() => !!form.data.valor_credito || label.obrigatorio]" label="Crédito (ICMS: 7.5 / ISS: 1.5)" placeholder="Crédito (ICMS: 7.5 / ISS: 1.5)" required></v-text-field>
+                      <v-text-field type="text" readonly v-model="form.data.credito" :rules="[() => !!form.data.credito || label.obrigatorio]" label="Valor do Crédito (ICMS: 7.5% / ISS: 1.5%)" placeholder="Valor do Crédito (ICMS: 7.5% / ISS: 1.5%)" required></v-text-field>
                     </div>
                   </div>
                 </div>
@@ -133,6 +133,8 @@
 <!-- /template -->
 
 <script>
+import auth from '@/authService'
+import { desbloquear } from "@/api/conta";
 import i18n from "@/i18n";
 
 export default {
@@ -150,9 +152,13 @@ export default {
         ],
         add_novo: false,
         data: {
-          tipo: null,
-          data_nota: null,
-          valor_nota: null,
+          tipo: 'icms',
+          data: null,
+          valor: null,
+          tributo: null,
+          credito: null,
+          senha: null,
+          address: null,
         }
       },
       search: "",
@@ -181,7 +187,22 @@ export default {
       ]
     };
   },
+  mounted () {
+    this.get()
+  },
   methods: {
+    calcular() {
+      if (this.form.data.valor != null) {
+        let valor = parseInt(this.form.data.valor)
+        if (this.form.data.tipo == 'icms') {
+          this.form.data.tributo = ((valor * 18) / 100).toFixed(2)
+          this.form.data.credito = ((valor * 7.5) / 100).toFixed(2)
+        } else {
+          this.form.data.tributo = ((valor * 5) / 100).toFixed(2)
+          this.form.data.credito = ((valor * 1.5) / 100).toFixed(2)
+        } // end iF;
+      } // end iF;
+    },
     add() {
       this.dialog = true;
     },
@@ -198,9 +219,36 @@ export default {
     },
     save() {
       if (this.$refs.form.validate()) {
-        console.log('asdasdasd')
+        this.form.data.address = auth.get().address
+        this.form.data.senha = auth.get().senha
+        desbloquear(this.form.data).then(response => {
+          if (response) {
+            this.$store.dispatch("adicionar_compra", this.form.data).then(response => {
+              console.log(response)
+            }).catch(error => {
+              console.log(error)
+            });
+          } // end iF response;
+        }).catch(() => {
+          swal(i18n.t("erro.title"), 'Não foi possível desbloquear sua conta. Favor verificar!', "error", { closeOnEsc: false });
+        });
       } // end this.$refs.form.validate
     },
+    get() {
+      this.form.data.address = auth.get().address
+      this.form.data.senha = auth.get().senha
+      desbloquear(this.form.data).then(response => {
+        if (response) {
+          this.$store.dispatch("listar_compras", this.form.data).then(response => {
+            console.log(response)
+          }).catch(error => {
+            console.log(error)
+          });
+        } // end iF response;
+      }).catch(() => {
+        swal(i18n.t("erro.title"), 'Não foi possível desbloquear sua conta. Favor verificar!', "error", { closeOnEsc: false });
+      });
+    }
   }
 };
 </script>

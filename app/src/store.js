@@ -46,6 +46,26 @@ export default new Vuex.Store({
           reject(error);
         });
       });
+    },
+    adicionar_compra(context, data){
+      return new Promise((resolve, reject) => {
+        nota_legal.methods.adicionar_compra(data.tipo, data.data, data.valor, data.tributo, data.credito).send({ from: data.address, gas: 3000000 }).then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+      });
+    },
+    listar_compras(context, data){
+      return new Promise((resolve, reject) => {
+        nota_legal.methods.listar_compras().send({ from: data.address, gas: 3000000 }).then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+      });
     }
   },
   getters: {

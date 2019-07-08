@@ -17,7 +17,7 @@ class AuthService {
     }
 
     get() {
-        return localStorage.getItem('userInfo');
+        return JSON.parse(localStorage.getItem('userInfo'));
     }
 
     isAuthenticated() {

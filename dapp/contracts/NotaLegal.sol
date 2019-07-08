@@ -19,9 +19,9 @@ contract NotaLegal {
         uint id;
         string tipo;
         string data;
-        uint valor;
-        uint tributo;
-        uint credito;
+        string valor;
+        string tributo;
+        string credito;
         address usuario;
     }
 
@@ -53,7 +53,7 @@ contract NotaLegal {
     }
 
     // função para cadastrar uma compra
-    function adicionar_compra(string memory _tipo, string memory _data, uint _valor, uint _tributo, uint _credito) public {
+    function adicionar_compra(string memory _tipo, string memory _data, string memory _valor, string memory _tributo, string memory _credito) public {
         compras[compraId] = Compra(compraId, _tipo, _data, _valor, _tributo, _credito, msg.sender);
         comprasIds.push(compraId);
         compraId++;
@@ -61,7 +61,7 @@ contract NotaLegal {
     }
 
     // função para resgatar info de uma compra
-    function compra_info(uint _id) public view returns(uint, string memory, string memory, uint, uint, uint, address) {
+    function compra_info(uint _id) public view returns(uint, string memory, string memory, string memory, string memory, string memory, address) {
         Compra memory compra = compras[_id];
 
         return (
@@ -76,16 +76,16 @@ contract NotaLegal {
     }
 
     // função que retorna todos as compras de um usuário
-    function listar_compras() public view returns(uint[] memory, string[] memory, string[] memory, uint[] memory, uint[] memory, uint[] memory, address[] memory) {
+    function listar_compras() public view returns(uint[] memory, string[] memory, string[] memory, string[] memory, string[] memory, string[] memory, address[] memory) {
 
         uint[] memory ids = comprasIds;
 
         uint[] memory idsCompras = new uint[](ids.length);
         string[] memory tipos = new string[](ids.length);
         string[] memory datas = new string[](ids.length);
-        uint[] memory valores = new uint[](ids.length);
-        uint[] memory tributos = new uint[](ids.length);
-        uint[] memory creditos = new uint[](ids.length);
+        string[] memory valores = new string[](ids.length);
+        string[] memory tributos = new string[](ids.length);
+        string[] memory creditos = new string[](ids.length);
         address[] memory owners = new address[](ids.length);
 
         for (uint i = 0; i < ids.length; i++) {
