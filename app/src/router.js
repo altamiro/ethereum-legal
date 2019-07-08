@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import auth from './authService'
 
+// import auth from "./authService";
 import Layout from '@/views/layout/Layout.vue';
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -57,3 +59,25 @@ export default new Router({
     },
   ]
 })
+
+const whiteList = ['/login', '/registrar']// no redirect whitelist
+
+router.beforeEach((to, from, next) => {
+
+  if (auth.isAuthenticated()) {
+    if (to.path === '/login') {
+      next({ path: '/' })
+    } else {
+      next();
+    }
+  } else {
+    if (whiteList.indexOf(to.path) !== -1) {
+      next();
+    } else {
+      next('/login');
+    }
+  }
+  
+})
+
+export default router
