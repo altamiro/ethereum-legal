@@ -90,6 +90,7 @@ export default {
   methods: {
     acessar() {
       if (this.$refs.form.validate()) {
+        this.$store.commit('TOGGLE_LOADING');
         listar_contas()
           .then(response => {
             if (response.status == 200) {
@@ -103,27 +104,33 @@ export default {
               if (this.form.data.address == null){
                 let msg = 'Não existe conta cadastrada para esse CPF: ' + this.form.data.cpf + '. Deseja criar uma conta?';
                 swal(i18n.t("erro.title"), msg, "error", { closeOnEsc: false }).then((value) => {
+                  this.$store.commit('CLOSE_LOADING');
                   this.$router.push({ path: '/registrar' });
                 });   
               } else {
                 desbloquear(this.form.data).then(response => {
                   if (response) {
                     this.$store.dispatch("listar_usuario", this.form.data).then(response => {
+                      this.$store.commit('CLOSE_LOADING');
                       auth.localLogin(this.form.data);
                       this.$router.push({ path: '/' });
                     }).catch(() => {
+                      this.$store.commit('CLOSE_LOADING');
                       swal(i18n.t("erro.title"), 'Não foi possível efetuar autentição. Favor verificar!', "error", { closeOnEsc: false });
                     });
                   } // end iF response;
                 }).catch(() => {
+                  this.$store.commit('CLOSE_LOADING');
                   swal(i18n.t("erro.title"), 'Não foi possível efetuar autentição. Favor verificar!', "error", { closeOnEsc: false });
                 });
               } // end iF
             } else {
+              this.$store.commit('CLOSE_LOADING');
               swal(i18n.t("erro.title"), 'Não foi possível efetuar autentição. Favor verificar!', "error", { closeOnEsc: false });
             } // end iF;
           })
           .catch(() => {
+            this.$store.commit('CLOSE_LOADING');
             swal(i18n.t("erro.title"), 'Não foi possível efetuar autentição. Favor verificar!', "error", { closeOnEsc: false });
           });
       } // end iF;

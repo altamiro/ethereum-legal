@@ -16,6 +16,10 @@ class AuthService {
         localStorage.removeItem('userInfo');
     }
 
+    get() {
+        return localStorage.getItem('userInfo');
+    }
+
     isAuthenticated() {
         return (localStorage.getItem(localStorageKey) === 'true');
     }
