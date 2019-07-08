@@ -4,13 +4,11 @@ class AuthService {
 
     localLogin(authResult) {
         localStorage.setItem(localStorageKey, 'true');
-        // localStorage.setItem('userInfo', JSON.stringify({
-        //     displayName: this.profile.name,
-        //     email: this.profile.email,
-        //     photoURL: this.profile.picture,
-        //     providerId: this.profile.sub.substr(0, this.profile.sub.indexOf('|')),
-        //     uid: this.profile.sub
-        // }));
+        localStorage.setItem('userInfo', JSON.stringify({
+            cpf: authResult.cpf,
+            senha: authResult.senha,
+            address: authResult.address
+        }));
     }
 
     logOut() {

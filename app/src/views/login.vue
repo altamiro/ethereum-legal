@@ -63,6 +63,7 @@
 <script>
 import swal from "sweetalert";
 import i18n from "@/i18n";
+import auth from '@/authService'
 import { desbloquear, listar_contas } from "@/api/conta";
 
 export default {
@@ -107,14 +108,12 @@ export default {
               } else {
                 desbloquear(this.form.data).then(response => {
                   if (response) {
-                    this.$store.dispatch("listar_usuario", this.form.data).then(async function(usuarios) {
-                      console.log(usuarios.cpf)
-                    })
-                    // this.$store.dispatch("listar_usuario", this.form.data).then(response => {
-                    //   console.log('response')
-                    // }).catch(() => {
-                    //   swal(i18n.t("erro.title"), 'Não foi possível efetuar autentição. Favor verificar!', "error", { closeOnEsc: false });
-                    // });
+                    this.$store.dispatch("listar_usuario", this.form.data).then(response => {
+                      auth.localLogin(this.form.data);
+                      this.$router.push({ path: '/' });
+                    }).catch(() => {
+                      swal(i18n.t("erro.title"), 'Não foi possível efetuar autentição. Favor verificar!', "error", { closeOnEsc: false });
+                    });
                   } // end iF response;
                 }).catch(() => {
                   swal(i18n.t("erro.title"), 'Não foi possível efetuar autentição. Favor verificar!', "error", { closeOnEsc: false });

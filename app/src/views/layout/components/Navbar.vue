@@ -9,7 +9,7 @@
     <v-spacer></v-spacer>
 
     <v-tooltip left>
-      <v-btn slot="activator" icon>
+      <v-btn slot="activator" icon @click="logOut">
         <v-icon>fas fa-sign-out-alt</v-icon>
       </v-btn>
       {{ $t('logout.title') }}
@@ -19,12 +19,18 @@
 </template>
 
 <script>
+import auth from '@/authService'
+
 export default {
   name: 'Navbar',
   methods: {
     toggleSideBar() {
       this.$store.commit('TOGGLE_SIDEBAR');
     },
+    logOut() {
+      auth.logOut();
+      this.$router.push({ path: '/login' });
+    }
   },
 };
 </script>

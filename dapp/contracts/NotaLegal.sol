@@ -60,8 +60,8 @@ contract NotaLegal {
         emit compraRegistrado(compraId);
     }
 
-    // função para resgatar info de um produto
-    function compraInfo(uint _id) public view returns(uint, string memory, string memory, uint, uint, uint, address) {
+    // função para resgatar info de uma compra
+    function compra_info(uint _id) public view returns(uint, string memory, string memory, uint, uint, uint, address) {
         Compra memory compra = compras[_id];
 
         return (
@@ -75,8 +75,8 @@ contract NotaLegal {
         );
     }
 
-    // função que retorna todos os produtos de um usuário
-    function getCompras() public view returns(uint[] memory, string[] memory, string[] memory, uint[] memory, uint[] memory, uint[] memory, address[] memory) {
+    // função que retorna todos as compras de um usuário
+    function listar_compras() public view returns(uint[] memory, string[] memory, string[] memory, uint[] memory, uint[] memory, uint[] memory, address[] memory) {
 
         uint[] memory ids = comprasIds;
 
@@ -89,7 +89,7 @@ contract NotaLegal {
         address[] memory owners = new address[](ids.length);
 
         for (uint i = 0; i < ids.length; i++) {
-            (idsCompras[i], tipos[i], datas[i], valores[i], tributos[i], creditos[i], owners[i]) = compraInfo(i);
+            (idsCompras[i], tipos[i], datas[i], valores[i], tributos[i], creditos[i], owners[i]) = compra_info(i);
         }
 
         return (idsCompras, tipos, datas, valores, tributos, creditos, owners);
