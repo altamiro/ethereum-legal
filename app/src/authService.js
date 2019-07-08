@@ -19,7 +19,7 @@ class AuthService {
     }
 
     isAuthenticated() {
-        return (localStorage.getItem(localStorageKey) != (null || undefined) && localStorage.getItem(localStorageKey) === 'true');
+        return (localStorage.getItem(localStorageKey) === 'true');
     }
 }
 

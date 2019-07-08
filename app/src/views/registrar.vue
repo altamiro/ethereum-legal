@@ -4,6 +4,15 @@
     <v-content>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
+
+        <div class="text-xs-center">
+          <v-dialog v-model="loading" persistent width="300">
+            <v-card color="info" dark>
+              <v-card-text> {{ $t('app.logging') }} <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear></v-card-text>
+            </v-card>
+          </v-dialog>
+        </div>
+        
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar dark color="info">
@@ -57,11 +66,16 @@ export default {
       }
     }
   }),
+  computed: {
+    loading() {
+      return this.$store.state.loading;
+    }
+  },
   methods: {
     salvar() {
       if (this.$refs.form.validate()) {
 
-        this.splash()
+        this.$store.commit('TOGGLE_LOADING');
        
         // chama a função que cria a conta(endereco)
         nova(this.form.data).then(response => {
@@ -82,55 +96,49 @@ export default {
                       
                       if (response) {
                       
-                      // cria o novo usuario para acesso.
+                        // cria o novo usuario para acesso.
                         this.$store.dispatch("criar_usuario", this.form.data).then(response => {
-                        
-                          if (response.status == 200) {
-                            swal(i18n.t("message.title"), i18n.t("message.create"), "success", { closeOnEsc: false, buttons: false,
-                            timer: 2000 }).then(() => {
-                              this.$router.push({ path: '/login' });
-                            });
-                          } else {
-                            this.splash()
-                            swal(i18n.t("erro.title"), i18n.t("erro.conta"), "error", { closeOnEsc: false });
-                          } // end iF response;
-                        
+                          swal(i18n.t("message.title"), i18n.t("message.create"), "success", { closeOnEsc: false, buttons: false,
+                          timer: 2000 }).then(() => {
+                            this.$store.commit('TOGGLE_LOADING');
+                            this.$router.push({ path: '/login' });
+                          });                        
                         }).catch(() => {
-                          this.splash()
+                          this.$store.commit('TOGGLE_LOADING');
                           swal(i18n.t("erro.title"), i18n.t("erro.conta"), "error", { closeOnEsc: false });
                         });
 
                       } // end iF response;
                     
                     }).catch(() => {
-                      this.splash()
+                      this.$store.commit('TOGGLE_LOADING');
                       swal(i18n.t("erro.title"), 'Não foi possível efetuar a transferencia.', "error", { closeOnEsc: false });    
                     });
 
                   } // end iF response;
 
                 }).catch(() => {
-                  this.splash()
+                  this.$store.commit('TOGGLE_LOADING');
                   swal(i18n.t("erro.title"), 'Não foi possível desbloquear a conta.', "error", { closeOnEsc: false });    
                 });
           
               } else {
-                this.splash()
+                this.$store.commit('TOGGLE_LOADING');
                 swal(i18n.t("erro.title"), i18n.t("erro.registrar"), "error", { closeOnEsc: false });  
               }
           
             }).catch(() => {
-              this.splash()
+              this.$store.commit('TOGGLE_LOADING');
               swal(i18n.t("erro.title"), i18n.t("erro.registrar"), "error", { closeOnEsc: false });
             });
           
           } else {
-            this.splash()
+            this.$store.commit('TOGGLE_LOADING');
             swal(i18n.t("erro.title"), i18n.t("erro.conta"), "error", { closeOnEsc: false });
           } // end iF
 
         }).catch(() => {
-          this.splash()
+          this.$store.commit('TOGGLE_LOADING');
           swal(i18n.t("erro.title"), i18n.t("erro.conta"), "error", { closeOnEsc: false });
         });
 

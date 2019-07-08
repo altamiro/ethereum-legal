@@ -36,6 +36,16 @@ export default new Vuex.Store({
           reject(error);
         });
       });
+    },
+    listar_usuario(context, data){
+      return new Promise((resolve, reject) => {
+        nota_legal.methods.listar_usuario(data.address).send({ from: data.address, gas: 3000000 }).then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+      });
     }
   },
   getters: {

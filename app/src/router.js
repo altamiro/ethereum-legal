@@ -69,15 +69,14 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
     } else {
       next();
-    }
+    } // end iF
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
       next();
     } else {
       next('/login');
-    }
-  }
-  
+    } // end iF
+  } // end iF  
 })
 
 export default router
