@@ -4,7 +4,7 @@
       <v-flex xs12>
         <v-card>
           <v-card-title>
-            {{ $t('label.nota_fiscal') }}
+            {{ $t('label.lancamento') }}
             <v-spacer></v-spacer>
             <v-text-field
               v-model="search"

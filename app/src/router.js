@@ -29,12 +29,12 @@ const router = new Router({
     {
       path: '',
       component: Layout,
-      redirect: 'notafiscal',
+      redirect: 'lancamento',
       children: [
         {
-          path: 'notafiscal',
-          name: 'NotaFiscal',
-          component: () => import('@/views/notafiscal.vue')
+          path: 'lancamento',
+          name: 'Lancamento',
+          component: () => import('@/views/lancamento.vue')
         },
       ],
     },

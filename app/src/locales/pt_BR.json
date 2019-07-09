@@ -7,7 +7,7 @@
   "search": "Pesquisar",
   "menu": {
     "dashboard": { "text": "Dashboard", "icon": "dashboard", "link": "/" },
-    "nota_fiscal": { "text": "Nota Fiscal", "icon": "line_style", "link": "/notafiscal" }
+    "nota_fiscal": { "text": "Lançamento(s)", "icon": "line_style", "link": "/lancamento" }
   },
   "login": {
     "title": "@:app.name - Autenticação",
@@ -58,8 +58,11 @@
     "voltar": "Voltar",
     "criar": "Criar",
     "cpf": "CPF",
+    "cnpj": "CNPJ",
+    "cpf_cnpj": "CPF/CNPJ",
     "nome": "Nome",
     "nota_fiscal": "Nota Fiscal",
+    "lancamento": "Lançamento(s)",
     "titulo_registar": "@:app.name - Nova Conta",
     "pesquisar": "Pesquisar",
     "listar": "Listar",

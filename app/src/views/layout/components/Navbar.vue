@@ -3,7 +3,7 @@
     <v-toolbar-side-icon @click.stop="toggleSideBar"></v-toolbar-side-icon>
 
     <v-toolbar-title>
-      {{ $t('app.name') }}
+      {{ $t('app.name') }} - {{ usuario }}
     </v-toolbar-title>
 
     <v-spacer></v-spacer>
@@ -23,6 +23,11 @@ import auth from '@/authService'
 
 export default {
   name: 'Navbar',
+  computed: {
+    usuario() {
+      return this.$store.state.usuario;
+    }
+  },
   methods: {
     toggleSideBar() {
       this.$store.commit('TOGGLE_SIDEBAR');

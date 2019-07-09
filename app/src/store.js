@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import nota_legal from '@/api/nota_legal'
+import auth from '@/authService'
 
 Vue.use(Vuex)
 
@@ -8,6 +9,7 @@ export default new Vuex.Store({
   state: {
     sidebar: true,
     loading: false,
+    usuario: auth.get().descricao
   },
   mutations: {
     TOGGLE_SIDEBAR: (state) => {
@@ -27,9 +29,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    criar_usuario(context, data){
+    criar_auditor(context, data){
       return new Promise((resolve, reject) => {
-        nota_legal.methods.criar_usuario(data.address, data.nome, data.cpf, data.senha).send({ from: data.address, gas: 3000000 }).then(response => {
+        nota_legal.methods.criar_auditor(data.address, data.nome, data.cpf).send({ from: data.address, gas: 3000000 }).then(response => {
           resolve(response);
         })
         .catch(error => {
@@ -37,9 +39,39 @@ export default new Vuex.Store({
         });
       });
     },
-    listar_usuario(context, data){
+    listar_auditor(context, data){
       return new Promise((resolve, reject) => {
-        nota_legal.methods.listar_usuario(data.address).call({ from: data.address, gas: 3000000 }).then(response => {
+        nota_legal.methods.listar_auditor(data.address).call({ from: data.address, gas: 3000000 }).then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+      });
+    },
+    criar_contribuinte(context, data){
+      return new Promise((resolve, reject) => {
+        nota_legal.methods.criar_contribuinte(data.address, data.cpf_cnpj).send({ from: data.address, gas: 3000000 }).then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+      });
+    },
+    atualizar_contribuinte(context, data){
+      return new Promise((resolve, reject) => {
+        nota_legal.methods.atualizar_contribuinte(data.address, data.credito, data.indicacao, data.utilizado).send({ from: data.address, gas: 3000000 }).then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+      });
+    },
+    listar_contribuinte(context, data){
+      return new Promise((resolve, reject) => {
+        nota_legal.methods.listar_contribuinte(data.address).call({ from: data.address, gas: 3000000 }).then(response => {
           resolve(response);
         })
         .catch(error => {
@@ -49,7 +81,7 @@ export default new Vuex.Store({
     },
     adicionar_compra(context, data){
       return new Promise((resolve, reject) => {
-        nota_legal.methods.adicionar_compra(data.tipo, data.data, data.valor, data.tributo, data.credito).send({ from: data.address, gas: 3000000 }).then(response => {
+        nota_legal.methods.adicionar_compra(data.contribuinte_address, data.tipo, data.data, data.valor, data.tributo, data.credito, data.bilhete).send({ from: data.address, gas: 3000000 }).then(response => {
           resolve(response);
         })
         .catch(error => {
@@ -71,5 +103,7 @@ export default new Vuex.Store({
   getters: {
     sidebar: state => state.sidebar,
     loading: state => state.loading,
+    usuario: state => state.usuario,
   }
 })
+
