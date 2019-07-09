@@ -39,7 +39,7 @@ export default new Vuex.Store({
     },
     listar_usuario(context, data){
       return new Promise((resolve, reject) => {
-        nota_legal.methods.listar_usuario(data.address).send({ from: data.address, gas: 3000000 }).then(response => {
+        nota_legal.methods.listar_usuario(data.address).call({ from: data.address, gas: 3000000 }).then(response => {
           resolve(response);
         })
         .catch(error => {
@@ -59,7 +59,7 @@ export default new Vuex.Store({
     },
     listar_compras(context, data){
       return new Promise((resolve, reject) => {
-        nota_legal.methods.listar_compras().send({ from: data.address, gas: 3000000 }).then(response => {
+        nota_legal.methods.listar_compras().call({ from: data.address, gas: 3000000 }).then(response => {
           resolve(response);
         })
         .catch(error => {

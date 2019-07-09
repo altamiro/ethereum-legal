@@ -3,30 +3,43 @@ pragma experimental ABIEncoderV2;
 
 contract NotaLegal {
 
-    // evento para notificar o cliente que a conta foi atualizada
-    event usuarioRegistrado(address _addr, string message);
+    // evento para notificar o cliente que o auditor foi criado
+    event auditorRegistrado(address _addr, string message);
+    // evento para notificar o cliente que o contribuinte foi criado
+    event contribuinteRegistrado(address _addr, string message);
     // evento para notificar o cliente que a compra foi registrada
     event compraRegistrado(uint id);
 
-    // estrutura para manter dados do usuário
-    struct Usuario {
-        string nome;
-        string cpf;
-        string senha;
+    // estrutura para manter dados do Auditor
+    struct Auditor {
+        string nome; // nome do auditor
+        string cpf; // cpf do auditor (o mesmo usado para criar a conta na rede)
+    }
+
+    // estrutura para manter dados do Contribuinte
+    struct Contribuinte {
+        string cpf_cnpj; // cpf ou cnpj do contribuinte (o mesmo usado para criar a conta na rede)
+        string credito; // valor do credito recebido
+        string indicacao; // descrição da indicação para usar o credito
+        string utilizado; // valor do utilizado na indicação
     }
 
     struct Compra {
-        uint id;
-        string tipo;
-        string data;
-        string valor;
-        string tributo;
-        string credito;
-        address usuario;
+        uint id; // id gerado automaticamente
+        address contribuinteOwner; // endereço da conta do contribuinte
+        string tipo; // tipo da compra. (ICMS ou ISS)
+        string data; // data da compra
+        string valor; // valor da compra
+        string tributo; // valor do tributo calculado
+        string credito; // valor do credito calculado
+        address auditorOwner; // endereço da conta do auditor
     }
 
-    // mapeia endereço do usuário a sua estrutura
-    mapping (address => Usuario) usuarios;
+    // mapeia endereço do Auditor a sua estrutura
+    mapping (address => Auditor) auditores;
+
+    // mapeia endereço do Contribuinte a sua estrutura
+    mapping (address => Contribuinte) contribuintes;
 
     // mapeia um id a uma compra
     mapping (uint => Compra) compras;
@@ -35,64 +48,91 @@ contract NotaLegal {
     // seta variaveis
     uint256 private compraId = 0;
 
-    // função para cadastrar conta do usuário
-    function criar_usuario(address _addr, string memory _nome, string memory _cpf, string memory _senha) public {
-        Usuario storage usuario = usuarios[_addr];
-        usuario.nome = _nome;
-        usuario.cpf = _cpf;
-        usuario.senha = _senha;
+    // função para cadastrar auditor
+    function criar_auditor(address _addr, string memory _nome, string memory _cpf) public {
+        Auditor storage auditor = auditores[_addr];
+        auditor.nome = _nome;
+        auditor.cpf = _cpf;
 
         // notifica o cliente através do evento
-        emit usuarioRegistrado(_addr, "Conta criada com sucesso!");
+        emit auditorRegistrado(_addr, "Auditor criado com sucesso!");
     }
 
-    // função para resgatar dados do usuário
-    function listar_usuario(address _addr) public view returns(Usuario memory) {
-        Usuario memory usuario = usuarios[_addr];
-        return usuario;
+    // função para resgatar dados
+    function listar_auditor(address _addr) public view returns(Auditor memory) {
+        Auditor memory auditor = auditores[_addr];
+        return auditor;
+    }
+
+    // função para cadastrar contribuinte
+    function criar_contribuinte(address _addr, string memory _cpf_cnpj) public {
+        Contribuinte storage contribuinte = contribuintes[_addr];
+        contribuinte.cpf_cnpj = _cpf_cnpj;
+        contribuinte.credito = '0.00';
+        contribuinte.indicacao = '';
+        contribuinte.utilizado = '0.00';
+
+        // notifica o cliente através do evento
+        emit contribuinteRegistrado(_addr, "Contribuinte criado com sucesso!");
+    }
+
+    function atualizar_contribuinte(address _addr, string memory _credito, string memory _indicacao, string memory _utilizado) public {
+        Contribuinte storage contribuinte = contribuintes[_addr];
+        contribuinte.credito = _credito;
+        contribuinte.indicacao = _indicacao;
+        contribuinte.utilizado = _utilizado;
+
+        // notifica o cliente através do evento
+        emit contribuinteRegistrado(_addr, "Contribuinte atualizado com sucesso!");
+    }
+
+    // função para resgatar dados
+    function listar_contribuinte(address _addr) public view returns(Contribuinte memory) {
+        Contribuinte memory contribuinte = contribuintes[_addr];
+        return contribuinte;
     }
 
     // função para cadastrar uma compra
-    function adicionar_compra(string memory _tipo, string memory _data, string memory _valor, string memory _tributo, string memory _credito) public {
-        compras[compraId] = Compra(compraId, _tipo, _data, _valor, _tributo, _credito, msg.sender);
+    function adicionar_compra(address _addr, string memory _tipo, string memory _data, string memory _valor, string memory _tributo, string memory _credito) public {
+        compras[compraId] = Compra(compraId, _addr, _tipo, _data, _valor, _tributo, _credito, msg.sender);
         comprasIds.push(compraId);
         compraId++;
         emit compraRegistrado(compraId);
     }
 
     // função para resgatar info de uma compra
-    function compra_info(uint _id) public view returns(uint, string memory, string memory, string memory, string memory, string memory, address) {
+    function compra_info(uint _id) public view returns(uint id, address contribuinte, string memory tipo, string memory data, string memory valor, string memory tributo, string memory credito) {
         Compra memory compra = compras[_id];
 
         return (
             compra.id,
+            compra.contribuinteOwner,
             compra.tipo,
             compra.data,
             compra.valor,
             compra.tributo,
-            compra.credito,
-            compra.usuario
+            compra.credito
         );
     }
 
     // função que retorna todos as compras de um usuário
-    function listar_compras() public view returns(uint[] memory, string[] memory, string[] memory, string[] memory, string[] memory, string[] memory, address[] memory) {
+    function listar_compras() public view returns(uint[] memory, address[] memory, string[] memory, string[] memory, string[] memory, string[] memory, string[] memory) {
 
         uint[] memory ids = comprasIds;
 
         uint[] memory idsCompras = new uint[](ids.length);
+        address[] memory contribuinteOwners = new address[](ids.length);
         string[] memory tipos = new string[](ids.length);
         string[] memory datas = new string[](ids.length);
         string[] memory valores = new string[](ids.length);
         string[] memory tributos = new string[](ids.length);
         string[] memory creditos = new string[](ids.length);
-        address[] memory owners = new address[](ids.length);
 
         for (uint i = 0; i < ids.length; i++) {
-            (idsCompras[i], tipos[i], datas[i], valores[i], tributos[i], creditos[i], owners[i]) = compra_info(i);
+            (idsCompras[i], contribuinteOwners[i], tipos[i], datas[i], valores[i], tributos[i], creditos[i]) = compra_info(i);
         }
 
-        return (idsCompras, tipos, datas, valores, tributos, creditos, owners);
+        return (idsCompras, contribuinteOwners, tipos, datas, valores, tributos, creditos);
     }
 
 }
