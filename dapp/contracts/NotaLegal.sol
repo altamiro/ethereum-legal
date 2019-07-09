@@ -32,6 +32,7 @@ contract NotaLegal {
         string valor; // valor da compra
         string tributo; // valor do tributo calculado
         string credito; // valor do credito calculado
+        string bilhete; // numero do bilhete gerado para essa compra
         address auditorOwner; // endereço da conta do auditor
     }
 
@@ -93,8 +94,8 @@ contract NotaLegal {
     }
 
     // função para cadastrar uma compra
-    function adicionar_compra(address _addr, string memory _tipo, string memory _data, string memory _valor, string memory _tributo, string memory _credito) public {
-        compras[compraId] = Compra(compraId, _addr, _tipo, _data, _valor, _tributo, _credito, msg.sender);
+    function adicionar_compra(address _addr, string memory _tipo, string memory _data, string memory _valor, string memory _tributo, string memory _credito, string memory _bilhete) public {
+        compras[compraId] = Compra(compraId, _addr, _tipo, _data, _valor, _tributo, _credito, _bilhete, msg.sender);
         comprasIds.push(compraId);
         compraId++;
         emit compraRegistrado(compraId);
