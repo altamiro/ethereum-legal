@@ -73,7 +73,7 @@
                           <v-radio :label="label.cpf" value="cpf"></v-radio>
                           <v-radio :label="label.cnpj" value="cnpj"></v-radio>
                         </v-radio-group>
-                        <v-text-field
+                          <v-text-field
                             v-if="radio == 'cpf'"
                             mask="###.###.###-##"
                             id="cpf_cnpj"

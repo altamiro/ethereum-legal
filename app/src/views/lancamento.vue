@@ -51,7 +51,51 @@
             <v-form ref="form">
               <v-flex xs12>
                 <div class="form-row">
-                  <div class="col-md-12">
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <v-radio-group v-model="radio" row>
+                        <v-radio :label="label.cpf" value="cpf"></v-radio>
+                        <v-radio :label="label.cnpj" value="cnpj"></v-radio>
+                      </v-radio-group>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="position-relative form-group">
+                      <v-text-field
+                        v-if="radio == 'cpf'"
+                        mask="###.###.###-##"
+                        id="cpf_cnpj"
+                        type="text"
+                        v-model="form.data.cpf_cnpj"
+                        :rules="[() => !!form.data.cpf_cnpj || label.obrigatorio]"
+                        maxlength="14" 
+                        label="Contribuinte (CPF)"
+                        placeholder="Contribuinte (CPF)" 
+                        required
+                      >
+                      </v-text-field>
+                      <v-text-field
+                        v-else 
+                        mask="##.###.###/####-##"
+                        id="cpf_cnpj"
+                        type="text"
+                        v-model="form.data.cpf_cnpj"
+                        :rules="[() => !!form.data.cpf_cnpj || label.obrigatorio]"
+                        maxlength="18" 
+                        label="Contribuinte (CNPJ)"
+                        placeholder="Contribuinte (CNPJ)" 
+                        required
+                      >
+                      </v-text-field>
+                    </div>
+                  </div>
+                </div>
+              </v-flex>
+              <!-- /v-flex -->
+
+              <v-flex xs12>
+                <div class="form-row">
+                  <div class="col-md-6">
                     <div class="position-relative form-group">
                       <v-select
                         label="Tipo de Nota Fiscal"
@@ -66,13 +110,7 @@
                       ></v-select>
                     </div>
                   </div>
-                </div>
-              </v-flex>
-              <!-- /v-flex -->
-
-              <v-flex xs12>
-                <div class="form-row">
-                  <div class="col-md-12">
+                  <div class="col-md-6">
                     <div class="position-relative form-group">
                       <v-text-field
                         type="text"
@@ -185,9 +223,12 @@ export default {
   data() {
     return {
       label: {
+        cpf: i18n.t("label.cpf"),
+        cnpj: i18n.t("label.cnpj"),
         obrigatorio: i18n.t("erro.obrigatorio")
       },
       dialog: false,
+      radio: 'cpf',
       form: {
         imposto: [
           { text: i18n.t("label.icms"), value: "icms" },
@@ -195,11 +236,14 @@ export default {
         ],
         add_novo: false,
         data: {
+          cpf_cnpj: '',
+          contribuinte: null,
           tipo: "icms",
           data: null,
           valor: null,
           tributo: null,
           credito: null,
+          bilhete: null,
           senha: null,
           address: null
         }
