@@ -12,6 +12,8 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import '@mdi/font/css/materialdesignicons.css';
 import '@/assets/css/default.css';
 
+import './plugins/vue-echarts'
+
 import i18n from './i18n'
 
 Vue.config.productionTip = false

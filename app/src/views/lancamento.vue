@@ -480,7 +480,6 @@ export default {
           this.dados_contribuinte.credito = response.credito
           this.dados_contribuinte.indicacao = response.indicacao
           this.dados_contribuinte.utilizado = response.utilizado != 'NaN' ? response.utilizado : ''
-          console.log(this.dados_contribuinte)
         }).catch(error => {
           console.log(error)
           swal(

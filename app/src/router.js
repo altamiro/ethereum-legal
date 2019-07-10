@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import auth from './authService'
 
-// import auth from "./authService";
 import Layout from '@/views/layout/Layout.vue';
 
 Vue.use(Router)
@@ -14,18 +13,6 @@ const router = new Router({
     { path: '/401', component: () => import('@/views/erro/401.vue'), },
     { path: '/404', component: () => import('@/views/erro/404.vue'), },
     { path: '*', redirect: '/404' },
-    // {
-    //   path: '',
-    //   component: Layout,
-    //   redirect: 'dashboard',
-    //   children: [
-    //     {
-    //       path: 'dashboard',
-    //       name: 'Dashboard',
-    //       component: () => import('@/views/dashboard.vue')
-    //     },
-    //   ],
-    // },
     {
       path: '',
       component: Layout,
@@ -38,17 +25,6 @@ const router = new Router({
         },
       ],
     },
-    // {
-    //   path: '/nota-fiscal',
-    //   component: Layout,
-    //   children: [
-    //     {
-    //       path: '/nota-fiscal',
-    //       name: 'notafiscal',
-    //       component: () => import('@/views/notafiscal.vue'),
-    //     },
-    //   ],
-    // },
     {
       path: '/login',
       component: () => import('@/views/login.vue'),
@@ -60,7 +36,7 @@ const router = new Router({
   ]
 })
 
-const whiteList = ['/login', '/registrar']// no redirect whitelist
+const whiteList = ['/login', '/registrar']
 
 router.beforeEach((to, from, next) => {
 

@@ -1,4 +1,8 @@
 module.exports = {
+  transpileDependencies: [
+    'vue-echarts',
+    'resize-detector'
+  ],
   pluginOptions: {
     i18n: {
       locale: 'pt_BR',
