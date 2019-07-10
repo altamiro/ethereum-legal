@@ -119,7 +119,7 @@ Após os lançamentos serem efetuados é possível navegar pelas contas dos cont
 
 <br>
 <br>
-    
+**Free Software, Hell Yeah!**
 #### USAR CRÉDITO
      
    O sistema está programado para utilização total do crédito.
