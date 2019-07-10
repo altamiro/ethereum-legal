@@ -1,11 +1,11 @@
 <template>
-  <v-container fluid fill-height>
+  <v-container fluid fill-height grid-list-xl>
     <v-layout row wrap>
 
 
     <v-flex xs12 v-if="tipo_acesso == 'contribuinte'">
       <v-card>
-        <v-card-title class="cyan darken-1">
+        <v-card-title class="secondary">
           <span class="headline white--text">Informações da sua conta (Crédito)</span>
         </v-card-title>
 
@@ -99,6 +99,17 @@
         </v-card>
       </v-flex>
       <!-- /v-flex -->
+
+      <v-flex xs12>
+        <v-card>
+          <v-card-title class="secondary">
+            <span class="headline white--text">Gráfico</span>
+          </v-card-title>
+          <v-card-text>
+            <graficos></graficos>
+          </v-card-text>
+        </v-card>
+      </v-flex>
 
       <v-dialog v-if="dialog" v-model="dialog" persistent max-width="70%">
         <v-card>
@@ -277,8 +288,13 @@ import { desbloquear } from "@/api/conta";
 import { validar } from "@/api/contribuinte";
 import i18n from "@/i18n";
 
+import Graficos from "./components/Graficos";
+
 export default {
   name: "NotaFiscal",
+  components: {
+    'graficos': Graficos
+  },
   data() {
     return {
       label: {

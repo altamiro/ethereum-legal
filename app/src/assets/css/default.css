@@ -84,3 +84,8 @@
 .menu_sub_title {
   color: #0072a8;
 }
+
+.teste_echarts {
+  width: 100% !important;
+  height: 100% !important;
+}
