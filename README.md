@@ -76,16 +76,16 @@ A tela inicial possui 2(dois) módulos: AUDITOR e CONTRIBUINTE
 <br>
    Se for o primeiro acesso uma conta deve ser criada.
     
-  CRIANDO UMA CONTA
+  * CRIANDO UMA CONTA
     
-    => Na tela inicial o módulo AUDITOR é o principal, clique em CRIAR UMA CONTA
-    => Preencha os campos Nome, CPF e Senha e clique em CRIAR
+    - Na tela inicial o módulo AUDITOR é o principal, clique em CRIAR UMA CONTA
+    - Preencha os campos Nome, CPF e Senha e clique em CRIAR
     
 <br>
 
 #### ACESSANDO O SISTEMA
 
-    => De volta à tela inicial informe o CPF e a Senha e clique em ACESSAR
+    - De volta à tela inicial informe o CPF e a Senha e clique em ACESSAR
 
 <br>
 
@@ -107,7 +107,7 @@ A tela inicial possui 2(dois) módulos: AUDITOR e CONTRIBUINTE
 <br>
 Após os lançamentos serem efetuados é possível navegar pelas contas dos contribuintes.
     
-    #### VISUALIZANDO AS INFORMAÇÕES NO MÓDULO CONTRIBUINTE
+    * VISUALIZANDO AS INFORMAÇÕES NO MÓDULO CONTRIBUINTE
     
     - Na tela inicial selecione CONTRIBUINTE
     - Na tela seguinte selecione CPF ou CNPJ e informe o número e clique em ACESSAR
@@ -117,7 +117,7 @@ Após os lançamentos serem efetuados é possível navegar pelas contas dos cont
         Uma vez tendo uma conta cadastrada para o CPF/CNPJ informado o sistema apresentará a tela "Informações da sua conta(Crédito) com o saldo disponível, a lista de lançamentos com os respectivos valoress e os números dos bilhetes para participação no sorteio do Nota Legal e, também, o botão "Usar Crédito"
 
 <br>
-    #### USAR CRÉDITO
+    * USAR CRÉDITO
      
    O sistema está programado para utilização total do crédito.
    
