@@ -124,7 +124,8 @@ Após os lançamentos serem efetuados é possível navegar pelas contas dos cont
      
    O sistema está programado para utilização total do crédito.
 
-<br>
+```
     - Ao clicar no botão "Usar Crédito" o sistema solicita que informe a destinação do crédito (IPTU,IPVA ou CONTA CORRENTE)
     - Clique em OK
         O sistema apresentará na tela o registro da utilização dos créditos e o saldo disponível atualizado
+```
