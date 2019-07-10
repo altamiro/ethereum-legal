@@ -112,10 +112,8 @@ A tela inicial possui 2(dois) módulos: AUDITOR e CONTRIBUINTE
 #### Para navegar no módulo CONTRIBUINTE:
 
 <br>
-Após os lançamentos serem efetuados é possível navegar pelas contas dos contribuintes.
+        Após os lançamentos serem efetuados é possível navegar pelas contas dos contribuintes.
 
-<br>
-<br>
 #### VISUALIZANDO AS INFORMAÇÕES NO MÓDULO CONTRIBUINTE
 
 ```
