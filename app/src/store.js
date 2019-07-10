@@ -1,15 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import nota_legal from "@/api/nota_legal";
-import auth from "@/authService";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     sidebar: true,
-    loading: false,
-    usuario: auth.isAuthenticated() ? auth.get().descricao : null
+    loading: false
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {
@@ -136,7 +134,6 @@ export default new Vuex.Store({
   },
   getters: {
     sidebar: state => state.sidebar,
-    loading: state => state.loading,
-    usuario: state => state.usuario
+    loading: state => state.loading
   }
 });
