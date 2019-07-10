@@ -2,7 +2,10 @@
   <v-toolbar dense app dark fixed clipped-left color="primary">
     <v-toolbar-side-icon @click.stop="toggleSideBar"></v-toolbar-side-icon>
 
-    <v-toolbar-title>{{ $t('app.name') }} - {{ usuario }}</v-toolbar-title>
+    <v-toolbar-title>
+      {{ $t('app.name') }} -
+      <span class="text-warning">{{ usuario }}</span>
+    </v-toolbar-title>
 
     <v-spacer></v-spacer>
 
