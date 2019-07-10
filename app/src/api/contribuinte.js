@@ -12,6 +12,8 @@ export function validar(param) {
   const data = {
     cpf_cnpj: param.cpf_cnpj,
     credito: param.credito,
+    indicacao: '',
+    utilizado: '',
     address: ""
   };
   return new Promise((resolve, reject) => {
@@ -26,7 +28,29 @@ export function validar(param) {
           });
 
           if (data["address"].length > 0) {
-            resolve(data);
+            const desbloquear_data = {
+              cpf: data["cpf_cnpj"],
+              senha: data["cpf_cnpj"],
+              address: data["address"],
+            };
+
+            desbloquear(desbloquear_data)
+
+            store.dispatch("listar_contribuinte", data)
+              .then(response => {
+                // calcula o novo credito para o contribuinte
+                data['utilizado'] = parseFloat(response.utilizado).toFixed(2).toString()
+                data['indicacao'] = response.indicacao
+                data['credito'] = (parseFloat(response.credito) + parseFloat(data['credito'])).toFixed(2).toString()
+                store.dispatch('atualizar_contribuinte', data).then(() => {
+                  resolve(data);
+                }).catch(error => {
+                  reject(error);
+                })
+              })
+              .catch(error => {
+                reject(error);
+              });
           } else {
             // se não encontrar o endereço, faça o processo de criar uma conta e registrar
             const novaConta = {

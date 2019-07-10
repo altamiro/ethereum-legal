@@ -70,8 +70,6 @@ contract NotaLegal {
         Contribuinte storage contribuinte = contribuintes[_addr];
         contribuinte.cpf_cnpj = _cpf_cnpj;
         contribuinte.credito = _credito;
-        contribuinte.indicacao = '';
-        contribuinte.utilizado = '0.00';
 
         // notifica o cliente através do evento
         emit contribuinteRegistrado(_addr, "Contribuinte criado com sucesso!");
