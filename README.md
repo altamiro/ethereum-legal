@@ -78,21 +78,28 @@ A tela inicial possui 2(dois) módulos: AUDITOR e CONTRIBUINTE
     
 #### CRIANDO UMA CONTA
 <br>
-    - Na tela inicial o módulo AUDITOR é o principal, clique em CRIAR UMA CONTA
-    - Preencha os campos Nome, CPF e Senha e clique em CRIAR
-    
+
+```
+- Na tela inicial o módulo AUDITOR é o principal, clique em CRIAR UMA CONTA
+- Preencha os campos Nome, CPF e Senha e clique em CRIAR
+```
+
 <br>
 
 #### ACESSANDO O SISTEMA
 
-    - De volta à tela inicial informe o CPF e a Senha e clique em ACESSAR
+```
+- De volta à tela inicial informe o CPF e a Senha e clique em ACESSAR
+```
 
 <br>
 
 #### EFETUANDO UM LANÇAMENTO
 
-    - Na tela principal clique no botão Novo Lançamento
-    - Na tela Lançamento (NF) selecione CPF ou CNPJ do contribuinte, preencha os campos solicitados e clique em SALVAR
+```
+- Na tela principal clique no botão Novo Lançamento
+- Na tela Lançamento (NF) selecione CPF ou CNPJ do contribuinte, preencha os campos solicitados e clique em SALVAR
+```
 
 <br>
         O sistema retornará à tela principal mostrando a conta criada na Blockchain para aquele CPF/CNPJ e os respectivos dados         lançados.
@@ -108,10 +115,14 @@ A tela inicial possui 2(dois) módulos: AUDITOR e CONTRIBUINTE
 Após os lançamentos serem efetuados é possível navegar pelas contas dos contribuintes.
 
 <br>
+<br>
 #### VISUALIZANDO AS INFORMAÇÕES NO MÓDULO CONTRIBUINTE
-    
-    - Na tela inicial selecione CONTRIBUINTE
-    - Na tela seguinte selecione CPF ou CNPJ e informe o número e clique em ACESSAR
+
+```
+- Na tela inicial selecione CONTRIBUINTE
+- Na tela seguinte selecione CPF ou CNPJ e informe o número e clique em ACESSAR
+
+```
 
 <br>
         Se tiver algum lançamento para o número informado o sistema apresentará as informações, se não, informará que não este contribuinte está cadastrado
@@ -119,7 +130,7 @@ Após os lançamentos serem efetuados é possível navegar pelas contas dos cont
 
 <br>
 <br>
-**Free Software, Hell Yeah!**
+    
 #### USAR CRÉDITO
      
    O sistema está programado para utilização total do crédito.
