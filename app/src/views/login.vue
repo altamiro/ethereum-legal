@@ -160,7 +160,7 @@ export default {
     }
   },
   watch: {
-    radio: function (val) {
+    radio: function () {
       this.form.data.cpf_cnpj = ''
     }
   },
@@ -233,9 +233,11 @@ export default {
                   this.$store.commit('CLOSE_LOADING');
                 });   
               } else {
+                this.form.data.cpf = this.form.data.cpf_cnpj
+                this.form.data.senha = this.form.data.cpf_cnpj
                 desbloquear(this.form.data).then(response => {
                   if (response) {
-                    this.$store.dispatch("listar_contribuinte", this.form.data).then(response => {
+                    this.$store.dispatch("listar_contribuinte", this.form.data).then(() => {
                       this.form.data.tipo = 'contribuinte'
                       this.form.data.nome = this.form.data.cpf_cnpj
                       this.form.data.senha = this.form.data.cpf_cnpj

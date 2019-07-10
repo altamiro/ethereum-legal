@@ -56,7 +56,7 @@ export default new Vuex.Store({
     criar_contribuinte(context, data) {
       return new Promise((resolve, reject) => {
         nota_legal.methods
-          .criar_contribuinte(data.address, data.cpf_cnpj)
+          .criar_contribuinte(data.address, data.cpf_cnpj, data.credito)
           .send({ from: data.address, gas: 3000000 })
           .then(response => {
             resolve(response);

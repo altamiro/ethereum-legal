@@ -63,7 +63,7 @@
     "nome": "Nome",
     "nota_fiscal": "Nota Fiscal",
     "lancamento": "Lançamento(s)",
-    "titulo_registar": "@:app.name - Nova Conta",
+    "titulo_registar": "@:app.name - Nova Conta (Auditor)",
     "pesquisar": "Pesquisar",
     "listar": "Listar",
     "total": "Total",

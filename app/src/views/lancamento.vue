@@ -6,6 +6,13 @@
           <v-card-title>
             {{ $t('label.lancamento') }}
             <v-spacer></v-spacer>
+            <b-btn v-if="tipo_acesso == 'auditor'"
+              class="btn-shadow d-inline-flex align-items-center btn btn-primary p-2"
+              variant="primary"
+              @click="add"
+            >Novo Lançamento</b-btn>
+            <!-- /b-btn -->
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <v-text-field
               v-model="search"
               append-icon="search"
@@ -13,20 +20,16 @@
               single-line
               hide-details
             ></v-text-field>
-            <b-btn
-              class="btn-shadow d-inline-flex align-items-center btn btn-primary p-2"
-              variant="primary"
-              @click="add"
-            >Lançar Compra</b-btn>
-            <!-- /b-btn -->
           </v-card-title>
-          <v-data-table :headers="headers" :items="desserts" :search="search">
+          <v-data-table :headers="columns" :items="row" :search="search">
             <template v-slot:items="props">
+              <td>{{ props.item.conta }}</td>
               <td>{{ props.item.tipo }}</td>
-              <td>{{ props.item.data_compra }}</td>
-              <td>{{ props.item.valor_compra }}</td>
-              <td>{{ props.item.valor_tributo }}</td>
-              <td>{{ props.item.valor_credito }}</td>
+              <td>{{ props.item.data }}</td>
+              <td class="text-xs-right">{{ props.item.valor }}</td>
+              <td class="text-xs-right">{{ props.item.tributo }}</td>
+              <td class="text-xs-right">{{ props.item.credito }}</td>
+              <td v-if="tipo_acesso == 'contribuinte'">{{ props.item.bilhete }}</td>
             </template>
             <template v-slot:no-results>
               <v-alert
@@ -68,25 +71,23 @@
                         type="text"
                         v-model="form.data.cpf_cnpj"
                         :rules="[() => !!form.data.cpf_cnpj || label.obrigatorio]"
-                        maxlength="14" 
+                        maxlength="14"
                         label="Contribuinte (CPF)"
-                        placeholder="Contribuinte (CPF)" 
+                        placeholder="Contribuinte (CPF)"
                         required
-                      >
-                      </v-text-field>
+                      ></v-text-field>
                       <v-text-field
-                        v-else 
+                        v-else
                         mask="##.###.###/####-##"
                         id="cpf_cnpj"
                         type="text"
                         v-model="form.data.cpf_cnpj"
                         :rules="[() => !!form.data.cpf_cnpj || label.obrigatorio]"
-                        maxlength="18" 
+                        maxlength="18"
                         label="Contribuinte (CNPJ)"
-                        placeholder="Contribuinte (CNPJ)" 
+                        placeholder="Contribuinte (CNPJ)"
                         required
-                      >
-                      </v-text-field>
+                      ></v-text-field>
                     </div>
                   </div>
                 </div>
@@ -134,7 +135,7 @@
                     <div class="position-relative form-group">
                       <v-text-field
                         type="text"
-                        @blur="calcular"
+                        v-on:keyup="formatarValor"
                         v-model="form.data.valor"
                         :rules="[() => !!form.data.valor || label.obrigatorio]"
                         label="Valor da Nota Fiscal"
@@ -216,6 +217,7 @@
 import swal from "sweetalert";
 import auth from "@/authService";
 import { desbloquear } from "@/api/conta";
+import { validar } from "@/api/contribuinte";
 import i18n from "@/i18n";
 
 export default {
@@ -228,7 +230,7 @@ export default {
         obrigatorio: i18n.t("erro.obrigatorio")
       },
       dialog: false,
-      radio: 'cpf',
+      radio: "cpf",
       form: {
         imposto: [
           { text: i18n.t("label.icms"), value: "icms" },
@@ -236,8 +238,8 @@ export default {
         ],
         add_novo: false,
         data: {
-          cpf_cnpj: '',
-          contribuinte: null,
+          cpf_cnpj: "",
+          contribuinte_address: null,
           tipo: "icms",
           data: null,
           valor: null,
@@ -249,35 +251,52 @@ export default {
         }
       },
       search: "",
-      headers: [
+      columns: [
+        { text: "Conta", value: "conta" },
         { text: "Tipo", value: "tipo" },
-        { text: "Data da Compra", value: "data_compra" },
-        { text: "Valor da Compra", value: "valor_compra" },
-        { text: "Valor do Tributo", value: "valor_tributo" },
-        { text: "Valor do Credito", value: "valor_credito" }
+        { text: "DT. Compra", value: "data" },
+        { text: "Vlr. Compra", value: "valor", align: 'right' },
+        { text: "Vlr. Tributo", value: "tributo", align: 'right' },
+        { text: "Vlr. Crédito", value: "credito", align: 'right' }
       ],
-      desserts: [
-        {
-          tipo: "Documento Fiscal",
-          data_compra: "01/02/2019",
-          valor_compra: 128.0,
-          valor_tributo: 15.6,
-          valor_credito: 1.5
-        },
-        {
-          tipo: "Nota de Serviço",
-          data_compra: "15/02/2019",
-          valor_compra: 20.0,
-          valor_tributo: 10.6,
-          valor_credito: 0.5
-        }
-      ]
+      row: []
     };
+  },
+  computed: {
+    tipo_acesso() {
+      return auth.get().tipo;
+    }
+  },
+  watch: {
+    "form.data.valor": function(newVal) {
+      if (newVal != null && newVal.length > 0) {
+        let valor = parseInt(newVal);
+        if (this.form.data.tipo == "icms") {
+          this.form.data.tributo = ((valor * 18) / 100).toFixed(2);
+          this.form.data.credito = ((valor * 7.5) / 100).toFixed(2);
+        } else {
+          this.form.data.tributo = ((valor * 5) / 100).toFixed(2);
+          this.form.data.credito = ((valor * 1.5) / 100).toFixed(2);
+        } // end iF;
+      } else {
+        this.form.data.tributo = null;
+        this.form.data.credito = null;
+      } // end iF;
+    }
   },
   mounted() {
     this.get();
   },
   methods: {
+    formatarValor() {
+      if (this.form.data.valor != null) {
+        this.form.data.valor = this.form.data.valor.replace(/\D/g, "");
+        this.form.data.valor = this.form.data.valor.replace(
+          /(\d)(\d{2})$/,
+          "$1.$2"
+        );
+      } // end iF.
+    },
     calcular() {
       if (this.form.data.valor != null) {
         let valor = parseInt(this.form.data.valor);
@@ -290,8 +309,24 @@ export default {
         } // end iF;
       } // end iF;
     },
+
     add() {
       this.dialog = true;
+    },
+    reload() {
+      this.close()
+      this.form.data = {
+        cpf_cnpj: "",
+        contribuinte_address: null,
+        tipo: "icms",
+        data: null,
+        valor: null,
+        tributo: null,
+        credito: null,
+        bilhete: null,
+        senha: null,
+        address: null
+      }
     },
     close() {
       this.dialog = false;
@@ -306,26 +341,61 @@ export default {
     },
     save() {
       if (this.$refs.form.validate()) {
+        this.$store.commit('TOGGLE_LOADING');
         this.form.data.address = auth.get().address;
         this.form.data.senha = auth.get().senha;
-        desbloquear(this.form.data)
-          .then(response => {
-            if (response) {
-              this.$store
-                .dispatch("adicionar_compra", this.form.data)
-                .then(response => {
-                  console.log(response);
-                  this.get();
-                })
-                .catch(error => {
-                  console.log(error);
-                });
-            } // end iF response;
+        this.form.data.bilhete = Date.now()
+          .toString()
+          .substring(
+            Date.now().toString().length,
+            Date.now().toString().length - 6
+          );
+
+        validar(this.form.data)
+          .then(data => {
+            this.form.data.contribuinte_address = data.address;
+            desbloquear(this.form.data)
+              .then(response => {
+                if (response) {
+                  this.$store
+                    .dispatch("adicionar_compra", this.form.data)
+                    .then(() => {
+                      this.$store.commit('CLOSE_LOADING');
+                      swal(i18n.t("message.title"), 'Lançamento do contribuinte, efetuado com sucesso.', "success", { closeOnEsc: false, buttons: false,
+                      timer: 2000 }).then(() => {
+                        this.get()
+                        this.reload()
+                        if (this.form.add_novo) {
+                          this.dialog = true;
+                        }
+                      });
+                    })
+                    .catch(() => {
+                      this.$store.commit('CLOSE_LOADING');
+                      swal(
+                        i18n.t("erro.title"),
+                        "Não foi possível efetuar esse lançamento. Favor verificar!",
+                        "error",
+                        { closeOnEsc: false }
+                      );
+                    });
+                } // end iF response;
+              })
+              .catch(() => {
+                this.$store.commit('CLOSE_LOADING');
+                swal(
+                  i18n.t("erro.title"),
+                  "Não foi possível desbloquear sua conta. Favor verificar!",
+                  "error",
+                  { closeOnEsc: false }
+                );
+              });
           })
           .catch(() => {
+            this.$store.commit('CLOSE_LOADING');
             swal(
               i18n.t("erro.title"),
-              "Não foi possível desbloquear sua conta. Favor verificar!",
+              "Não foi possível efetuar esse lançamento. Favor verificar!",
               "error",
               { closeOnEsc: false }
             );
@@ -333,16 +403,58 @@ export default {
       } // end this.$refs.form.validate
     },
     get() {
+      if (auth.get().tipo == 'contribuinte') {
+        this.columns.push({ text: "Bilhete", value: "bilhete" })
+      } // end iF;
+      this.$store.commit('TOGGLE_LOADING');
       this.form.data.address = auth.get().address;
       this.form.data.senha = auth.get().senha;
-      this.$store.dispatch("listar_compras", this.form.data)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      this.$store
+        .dispatch("listar_compras", this.form.data)
+        .then(response => {
+          this.$store.commit('CLOSE_LOADING');
+          if (response != null) {
+            this.row = []
+            for (let i = 0; i < response['0'].length; i++) {
+
+              if (auth.get().tipo == 'contribuinte') {
+                if (response['0'][i].toLowerCase() === auth.get().address.toLowerCase()) {
+                  this.row.push({
+                    conta: response['0'][i],
+                    tipo: response['1'][i] == 'icms' ? i18n.t("label.icms") : i18n.t("label.iss"),
+                    data: response['2'][i],
+                    valor: response['3'][i],
+                    tributo: response['4'][i],
+                    credito: response['5'][i],
+                    bilhete: response['6'][i]
+                  })  
+                } // end iF;
+
+              } else {
+                this.row.push({
+                  conta: response['0'][i],
+                  tipo: response['1'][i] == 'icms' ? i18n.t("label.icms") : i18n.t("label.iss"),
+                  data: response['2'][i],
+                  valor: response['3'][i],
+                  tributo: response['4'][i],
+                  credito: response['5'][i]
+                })
+              } // end iF;
+              
+            } // end iF
+          }
+        })
+        .catch(() => {
+          this.$store.commit('CLOSE_LOADING');
+          swal(
+              i18n.t("erro.title"),
+              "Ocorreu um erro ao carregar os lançamentos.",
+              "error",
+              { closeOnEsc: false }
+            );
+        });
     }
   }
 };
 </script>
+

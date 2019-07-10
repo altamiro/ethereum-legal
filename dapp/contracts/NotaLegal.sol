@@ -66,10 +66,10 @@ contract NotaLegal {
     }
 
     // função para cadastrar contribuinte
-    function criar_contribuinte(address _addr, string memory _cpf_cnpj) public {
+    function criar_contribuinte(address _addr, string memory _cpf_cnpj, string memory _credito) public {
         Contribuinte storage contribuinte = contribuintes[_addr];
         contribuinte.cpf_cnpj = _cpf_cnpj;
-        contribuinte.credito = '0.00';
+        contribuinte.credito = _credito;
         contribuinte.indicacao = '';
         contribuinte.utilizado = '0.00';
 
@@ -102,38 +102,39 @@ contract NotaLegal {
     }
 
     // função para resgatar info de uma compra
-    function compra_info(uint _id) public view returns(uint id, address contribuinte, string memory tipo, string memory data, string memory valor, string memory tributo, string memory credito) {
+    function compra_info(uint _id) public view returns(address contribuinte, string memory tipo, string memory data, string memory valor, string memory tributo, string memory credito, string memory bilhete) {
         Compra memory compra = compras[_id];
 
         return (
-            compra.id,
             compra.contribuinteOwner,
             compra.tipo,
             compra.data,
             compra.valor,
             compra.tributo,
-            compra.credito
+            compra.credito,
+            compra.bilhete
         );
     }
 
     // função que retorna todos as compras de um usuário
-    function listar_compras() public view returns(uint[] memory, address[] memory, string[] memory, string[] memory, string[] memory, string[] memory, string[] memory) {
+    function listar_compras() public view returns(address[] memory, string[] memory, string[] memory, string[] memory, string[] memory, string[] memory, string[] memory) {
 
         uint[] memory ids = comprasIds;
 
-        uint[] memory idsCompras = new uint[](ids.length);
+        // uint[] memory idsCompras = new uint[](ids.length);
         address[] memory contribuinteOwners = new address[](ids.length);
         string[] memory tipos = new string[](ids.length);
         string[] memory datas = new string[](ids.length);
         string[] memory valores = new string[](ids.length);
         string[] memory tributos = new string[](ids.length);
         string[] memory creditos = new string[](ids.length);
+        string[] memory bilhetes = new string[](ids.length);
 
         for (uint i = 0; i < ids.length; i++) {
-            (idsCompras[i], contribuinteOwners[i], tipos[i], datas[i], valores[i], tributos[i], creditos[i]) = compra_info(i);
+            (contribuinteOwners[i], tipos[i], datas[i], valores[i], tributos[i], creditos[i], bilhetes[i]) = compra_info(i);
         }
 
-        return (idsCompras, contribuinteOwners, tipos, datas, valores, tributos, creditos);
+        return (contribuinteOwners, tipos, datas, valores, tributos, creditos, bilhetes);
     }
 
 }
