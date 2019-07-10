@@ -63,6 +63,48 @@ Dentro da pasta app <br>
 
     npm install
     npm run serve
+    
+    acesse o app pelo endereço: http://localhost:8080
 
 <br>
-Para fazer login, basta criar uma conta na tela inicial.
+
+<br>
+A tela inicial possui 2(dois) módulos: AUDITOR e CONTRIBUINTE
+<br>
+
+#### Para navegar no módulo AUDITOR:
+    Se for o primeiro acesso uma conta deve ser criada.
+    
+    *CRIANDO UMA CONTA
+    
+    => Na tela inicial o módulo AUDITOR é o principal, clique em CRIAR UMA CONTA
+    => Preencha os campos Nome, CPF e Senha e clique em CRIAR
+    
+    *ACESSANDO O SISTEMA
+    
+    => De volta à tela inicial informe o CPF e a Senha e clique em ACESSAR
+    
+    *EFETUANDO UM LANÇAMENTO
+    
+    => Na tela principal clique no botão Novo Lançamento
+    => Na tela Lançamento (NF) selecione CPF ou CNPJ do contribuinte, preencha os campos solicitados e clique em SALVAR
+        O sistema retornará à tela principal mostrando a conta criada na Blockchain para aquele CPF/CNPJ e os respectivos dados         lançados.
+        A conta criada é única para cada CPF/CNPJ informado no lançamento, garantindo assim que quaisquer créditos lançados para o CPF/CNPJ informado serão atribuídos à sua respectiva conta, independentemente de quantos lançamentos ou quais tipos de documentos fiscais sejam realizados.
+        A conta criada será acessada no módulo CONTRIBUINTE utilizando o CPF/CNPJ utilizado na criação.
+
+#### Para navegar no módulo CONTRIBUINTE:
+    Após os lançamentos serem efetuados é possível navegar pelas contas dos contribuintes.
+    
+    *VISUALIZANDO AS INFORMAÇÕES NO MÓDULO CONTRIBUINTE
+    
+    =>Na tela inicial selecione CONTRIBUINTE
+    =>Na tela seguinte selecione CPF ou CNPJ e informe o número e clique em ACESSAR
+        Se tiver algum lançamento para o número informado o sistema apresentará as informações, se não, informará que não este contribuinte está cadastrado
+        Uma vez tendo uma conta cadastrada para o CPF/CNPJ informado o sistema apresentará a tela "Informações da sua conta(Crédito) com o saldo disponível, a lista de lançamentos com os respectivos valoress e os números dos bilhetes para participação no sorteio do Nota Legal e, também, o botão "Usar Crédito"
+        
+     *USAR CRÉDITO
+     
+        O sistema está programado para utilização total do crédito.
+    =>Ao clicar no botão "Usar Crédito" o sistema solicita que informe a destinação do crédito (IPTU,IPVA ou CONTA CORRENTE)
+    =>Clique em OK
+        O sistema apresentará na tela o registro da utilização dos créditos e o saldo disponível atualizado
