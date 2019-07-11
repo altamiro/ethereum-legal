@@ -4,6 +4,7 @@
 </template>
 
 <script>
+import swal from "sweetalert";
 import echarts from "echarts";
 import * as d3 from "d3";
 require("echarts/theme/dark");
@@ -144,7 +145,7 @@ export default {
               const series = [];
               const metrics = [];
 
-              Object.entries(groupBy(itens, "ano")).forEach(([key, value]) => {
+              Object.entries(groupBy(itens, "ano")).forEach(([key]) => {
                 xaxis_data.push(key);
               });
 

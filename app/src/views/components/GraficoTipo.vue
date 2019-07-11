@@ -4,6 +4,7 @@
 </template>
 
 <script>
+import swal from "sweetalert";
 import echarts from "echarts";
 import * as d3 from "d3";
 require("echarts/theme/dark");
