@@ -1,12 +1,12 @@
 # Ethereum Legal
 
-Projeto apresentado oa curso de pós-graduação TECNOLOGIAS DISRUPTIVAS do IESB, para a disciplina Implementar Cases de mercado em Blockchain, professor Flavio Henrique Moura Stakoviak.
+Trabalho apresentado ao curso de pós-graduação TECNOLOGIAS DISRUPTIVAS do IESB, para a disciplina IMPLEMENTAR CASES DE MERCADO EM BLOCKCHAIN, professor Flavio Henrique Moura Stakoviak.
 <br>
 Este projeto, com escopo de MVP, demonstra a aplicação da tecnologia BLOCKCHAIN para a persistência de dados para o Programa Nota Legal DF.
 <br>
-Usando uma interface web para simulação da geração de uma nota fiscal de mercadorias ou de serviços, o sistema calcula os dados dos tributos gerados e os respectivos créditos do contribuinte no Programa Nota Legal, registrando estes créditos numa Blockchain privada por meio de um Smart Contract Ethereum.
+Usando uma interface web para a simulação da geração de uma nota fiscal de mercadorias ou de serviços, o sistema calcula os valores dos impostos gerados e os respectivos créditos do contribuinte no Programa Nota Legal (muito embora estes valores não sejam os aplicados na realidade), registrando estes créditos numa Blockchain privada por meio de um Smart Contract Ethereum.
 <br>
-Para cada CPF ou CNPJ de contribuinte é criado um único endereço na Blockchain para registro e recuperação dos créditos, utilizações dos mesmos e os bilhetes gerados para fins de sorteio.
+Para cada CPF ou CNPJ de contribuinte é criado um único endereço na Blockchain para registro e recuperação dos valores referentes aos créditos, às utilizações dos mesmos e aos bilhetes gerados para fins de sorteio.
 
 ### Dependências necessárias
 
@@ -16,7 +16,7 @@ Os softwares necessários para rodar o app são:
     <li> Nodejs/npm: https://nodejs.org/en/</li>
     <li> Truffle Framework (Para fazer deploy e testes do smart contract)</li>
     <li> Curl https://curl.haxx.se/ (Para enviar requisições ao parity pelo terminal) </li>
-     <li> Parity https://wiki.parity.io/Setup (Linux / Mac) </li>
+    <li> Parity https://wiki.parity.io/Setup (Linux / Mac) </li>
     <li> Parity https://github.com/paritytech/parity-ethereum/releases (Windows) </li>
 </ol>
 
@@ -32,9 +32,7 @@ npm install --global windows-build-tools --unsafe
 
 #### Para rodar a blockchain
 
-dentro da pasta blockchain <br>
-
-Execute o seguinte comando: <br>
+Dentro da pasta blockchain, execute o seguinte comando: <br>
 
     parity --config nodes/node00/node.toml
 
@@ -47,7 +45,8 @@ Para que o parity reconheça a conta pelo seu nome, use o comando abaixo: <br>
 
     curl --data '{"method":"parity_setAccountName","params":["0x00a1103c941fc2e1ef8177e6d9cc4657643f274b","node00"],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST localhost:8540
 
-Pare a execução do nó. Descomente o código no arquivo /nodes/node00/node.toml <br>
+Pare a execução do nó.<br>
+Descomente o código no arquivo /nodes/node00/node.toml <br>
 
 Execute o nó com o comando: <br>
 
@@ -111,7 +110,7 @@ Dentro da pasta app <br>
 ```
 
 <br>
-        O sistema retornará à tela principal mostrando a conta criada na Blockchain para aquele CPF/CNPJ e os respectivos dados lançados.
+        O sistema retornará à tela principal mostrando a conta criada na Blockchain para aquele CPF/CNPJ (criação automática) e os respectivos dados lançados.
 <br><br>
 A conta criada é única para cada CPF/CNPJ informado no lançamento, garantindo assim que quaisquer créditos lançados para o CPF/CNPJ informado serão atribuídos à sua respectiva conta, independentemente de quantos lançamentos ou quais tipos de documentos fiscais sejam realizados.
 <br><br>
@@ -131,9 +130,9 @@ A conta criada será acessada no módulo CONTRIBUINTE utilizando o CPF/CNPJ util
 ```
 
 <br>
-        Se tiver algum lançamento para o número informado o sistema apresentará as informações, se não, informará que não este contribuinte está cadastrado
+        Se tiver algum lançamento para o número informado o sistema apresentará as informações, se não, informará que este contribuinte não está cadastrado
 <br><br>
-        Uma vez tendo uma conta cadastrada para o CPF/CNPJ informado o sistema apresentará a tela "Informações da sua conta(Crédito) com o saldo disponível, a lista de lançamentos com os respectivos valoress e os números dos bilhetes para participação no sorteio do Nota Legal e, também, o botão "Usar Crédito"
+        Uma vez tendo uma conta cadastrada para o CPF/CNPJ informado (cadastro feito pelo módulo AUDITOR automaticamente) o sistema apresentará a tela "Informações da sua conta(Crédito) com o saldo disponível, a lista de lançamentos com os respectivos valores e os números dos bilhetes para participação no sorteio do Nota Legal e, também, o botão "Usar Crédito"
 
 #### USAR CRÉDITO
 
