@@ -64,10 +64,10 @@ Dentro da pasta app <br>
     npm install
     npm run serve
 
-<br>
+#### Acesse o app
 
 ```
-- Acesse o app pelo endereço: http://localhost:8080
+- Endereço: http://localhost:8080
 ```
 
 <hr>
