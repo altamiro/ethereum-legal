@@ -66,7 +66,7 @@ Dentro da pasta app <br>
 
     acesse o app pelo endereço: http://localhost:8080
 
-<br>
+<br><hr>
 
 #### A tela inicial possui 2(dois) módulos:
 
