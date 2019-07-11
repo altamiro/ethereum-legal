@@ -109,7 +109,7 @@
             </span>
           </v-card-title>
           <v-card-text>
-            <grafico-valor-de-compra></grafico-valor-de-compra>
+            <grafico-valor-de-compra ref="grafico_valor_de_compra"></grafico-valor-de-compra>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -123,7 +123,7 @@
             </span>
           </v-card-title>
           <v-card-text>
-            <grafico-tributo></grafico-tributo>
+            <grafico-tributo ref="grafico_tributo"></grafico-tributo>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -137,7 +137,7 @@
             </span>
           </v-card-title>
           <v-card-text>
-            <grafico-credito></grafico-credito>
+            <grafico-credito ref="grafico_credito"></grafico-credito>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -486,6 +486,9 @@ export default {
                         { closeOnEsc: false, buttons: false, timer: 2000 }
                       ).then(() => {
                         this.get();
+                        this.$refs.grafico_tributo.get();
+                        this.$refs.grafico_valor_de_compra.get();
+                        this.$refs.grafico_credito.get();
                         this.reload();
                         if (this.form.add_novo) {
                           this.dialog = true;

@@ -109,14 +109,29 @@ export default {
           const itens = [];
           if (response != null) {
             for (let i = 0; i < response["0"].length; i++) {
-              itens.push({
-                tipo: response["1"][i],
-                ano: response["2"][i].split("/")[2],
-                valor: parseFloat(response["3"][i]),
-                tributo: parseFloat(response["4"][i]),
-                credito: parseFloat(response["5"][i])
-              });
-            } // end iF
+              if (auth.get().tipo == "contribuinte") {
+                if (
+                  response["0"][i].toLowerCase() ===
+                  auth.get().address.toLowerCase()
+                ) {
+                  itens.push({
+                    tipo: response["1"][i],
+                    ano: response["2"][i].split("/")[2],
+                    valor: parseFloat(response["3"][i]),
+                    tributo: parseFloat(response["4"][i]),
+                    credito: parseFloat(response["5"][i])
+                  });
+                } // end iF;
+              } else {
+                itens.push({
+                  tipo: response["1"][i],
+                  ano: response["2"][i].split("/")[2],
+                  valor: parseFloat(response["3"][i]),
+                  tributo: parseFloat(response["4"][i]),
+                  credito: parseFloat(response["5"][i])
+                });
+              } // end iF;
+            } // end for
 
             if (itens.length > 0) {
               const legend = [];
