@@ -1,6 +1,12 @@
 # Ethereum Legal
 
-Projeto da Pós - IESB
+Projeto apresentado oa curso de pós-graduação TECNOLOGIAS DISRUPTIVAS do IESB, para a disciplina Implementar Cases de mercado em Blockchain, professor Flavio Henrique Moura Stakoviak.
+<br>
+Este projeto, com escopo de MVP, demonstra a aplicação da tecnologia BLOCKCHAIN para a persistência de dados para o Programa Nota Legal DF.
+<br>
+Usando uma interface web para simulação da geração de uma nota fiscal de mercadorias ou de serviços, o sistema calcula os dados dos tributos gerados e os respectivos créditos do contribuinte no Programa Nota Legal, registrando estes créditos numa Blockchain privada por meio de um Smart Contract Ethereum.
+<br>
+Para cada CPF ou CNPJ de contribuinte é criado um único endereço na Blockchain para registro e recuperação dos créditos, utilizações dos mesmos e os bilhetes gerados para fins de sorteio.
 
 ### Dependências necessárias
 
