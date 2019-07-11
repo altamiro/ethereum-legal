@@ -70,11 +70,15 @@ Dentro da pasta app <br>
 
 #### A tela inicial possui 2(dois) módulos:
 
-        AUDITOR e CONTRIBUINTE <br>
+```
+- AUDITOR e CONTRIBUINTE
+```
 
 #### Para navegar no módulo AUDITOR:
 
-        Se for o primeiro acesso uma conta deve ser criada. <br>
+```
+ - Se for o primeiro acesso uma conta deve ser criada.
+```
 
 #### CRIANDO UMA CONTA
 
