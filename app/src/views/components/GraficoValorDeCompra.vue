@@ -24,7 +24,7 @@ export default {
     },
     height: {
       type: String,
-      default: "600px"
+      default: "400px"
     }
   },
   data() {
@@ -33,13 +33,13 @@ export default {
       labelOption: {
         normal: {
           show: true,
-          position: "top",
+          position: "insideBottom",
           distance: 15,
           align: "left",
           verticalAlign: "middle",
           rotate: 90,
           formatter: "{c}  {name|{a}}",
-          fontSize: 16,
+          fontSize: 12,
           rich: {
             name: {
               textBorderColor: "#fff"
@@ -51,7 +51,6 @@ export default {
   },
   mounted() {
     this.get();
-    this.initChart();
     this.__resizeHanlder = debounce(() => {
       if (this.chart) {
         this.chart.resize();
@@ -68,10 +67,9 @@ export default {
     this.chart = null;
   },
   methods: {
-    initChart() {
+    initChart(data) {
       this.chart = echarts.init(this.$el);
       this.chart.setOption({
-        color: ["#003366", "#006699", "#4cabce", "#e5323e"],
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -79,7 +77,7 @@ export default {
           }
         },
         legend: {
-          data: ["Forest", "Steppe", "Desert", "Wetland"]
+          data: data.legend
         },
         toolbox: {},
         calculable: true,
@@ -87,7 +85,7 @@ export default {
           {
             type: "category",
             axisTick: { show: false },
-            data: ["2012", "2013", "2014", "2015", "2016"]
+            data: data.xaxis
           }
         ],
         yAxis: [
@@ -95,32 +93,7 @@ export default {
             type: "value"
           }
         ],
-        series: [
-          {
-            name: "Forest",
-            type: "bar",
-            label: this.labelOption,
-            data: [320, 332, 301, 334, 390]
-          },
-          {
-            name: "Steppe",
-            type: "bar",
-            label: this.labelOption,
-            data: [220, 182, 191, 234, 290]
-          },
-          {
-            name: "Desert",
-            type: "bar",
-            label: this.labelOption,
-            data: [150, 232, 201, 154, 190]
-          },
-          {
-            name: "Wetland",
-            type: "bar",
-            label: this.labelOption,
-            data: [98, 77, 101, 99, 40]
-          }
-        ]
+        series: data.series
       });
     },
     get() {
@@ -179,58 +152,61 @@ export default {
                   .entries(value);
 
                 metrics.push(expenseMetrics);
-
-                // series.push({
-                //   name: key == 'icms' ? i18n.t("label.icms") : i18n.t("label.iss"),
-                //   type: 'bar',
-                //   label: this.labelOption,
-                //   data: []
-                // })
               });
 
+              const data = {
+                icms: [],
+                iss: []
+              };
+
               if (metrics.length > 0) {
-                const data = [];
                 for (let i = 0; i < metrics.length; i++) {
                   const element1 = metrics[i];
                   if (element1.length > 0) {
-                    const teste = [];
+                    const icms = [];
+                    const iss = [];
                     for (let x = 0; x < element1.length; x++) {
                       const element2 = element1[x];
-                      teste.push(element2.values[0].value.total);
-                      // data.push({
-                      //   tipo: element2.values[0].key,
-                      //   total: element2.values[0].value.total
-                      // });
+                      if (element2.values[0].key === "icms") {
+                        icms.push(element2.values[0].value.total.toFixed(2));
+                      } else {
+                        iss.push(element2.values[0].value.total.toFixed(2));
+                      }
                     } // end for
-                    console.log(element1);
-                    // data.push({
-                    //   tipo: element1.values[0].key,
-                    //   total: teste
-                    // });
+                    if (icms.length > 0) {
+                      data["icms"] = icms;
+                    }
+                    if (iss.length > 0) {
+                      data["iss"] = iss;
+                    }
                   } // end iF;
                 } // end iF;
-                console.log(data);
+                if (data["icms"].length > data["iss"].length) {
+                  data["iss"].push(parseFloat("0.00"));
+                }
+
+                if (data["iss"].length > data["icms"].length) {
+                  data["icms"].push(parseFloat("0.00"));
+                }
               } // end for;
 
-              // console.log('metrics: ', metrics)
-              // console.log('legend: ', legend)
-              // console.log('xaxis_data: ', xaxis_data)
+              for (let i = 0; i < legend.length; i++) {
+                const element = legend[i];
+                series.push({
+                  name: element,
+                  type: "bar",
+                  label: this.labelOption,
+                  data: element.length == 13 ? data["iss"] : data["icms"]
+                });
+              }
 
-              // console.log(series)
-              // console.log(legend)
-              // console.log(xaxis_data)
+              const param_data = {
+                legend: legend,
+                xaxis: xaxis_data,
+                series: series
+              };
+              this.initChart(param_data);
             } // end iF;
-
-            // const ano = [];
-            // for (const item of item_ano) {
-            //   if(!map.has(item)){
-            //     map.set(item, true);
-            //     ano.push(item);
-            //   } // end if;
-            // } // end for;
-
-            // console.log(legenda)
-            // console.log(ano)
           }
         })
         .catch(error => {

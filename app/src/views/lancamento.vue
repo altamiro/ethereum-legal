@@ -1,69 +1,63 @@
 <template>
   <v-container fluid fill-height grid-list-xl>
     <v-layout row wrap>
+      <v-flex xs12 v-if="tipo_acesso == 'contribuinte'">
+        <v-card>
+          <v-card-title class="secondary">
+            <span class="headline white--text">Informações da sua conta (Crédito)</span>
+          </v-card-title>
 
+          <v-list>
+            <v-list-tile>
+              <v-list-tile-action>
+                <span class="text-success">Disponível: &nbsp;&nbsp;&nbsp;</span>
+              </v-list-tile-action>
 
-    <v-flex xs12 v-if="tipo_acesso == 'contribuinte'">
-      <v-card>
-        <v-card-title class="secondary">
-          <span class="headline white--text">Informações da sua conta (Crédito)</span>
-        </v-card-title>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  <span class="text-secondary strong">R$ {{ dados_contribuinte.credito }}</span>
+                </v-list-tile-title>
+              </v-list-tile-content>
 
-        <v-list>
+              <v-list-tile-action v-if="dados_contribuinte.credito != '0.00'">
+                <b-btn
+                  class="btn-shadow d-inline-flex align-items-center btn btn-success p-2"
+                  variant="success"
+                  @click="usar_credito"
+                >Usar Crédito</b-btn>
+              </v-list-tile-action>
+            </v-list-tile>
 
-          <v-list-tile>
+            <v-divider v-if="dados_contribuinte.utilizado.length > 0"></v-divider>
 
-            <v-list-tile-action>
-              <span class="text-success">Disponível: &nbsp;&nbsp;&nbsp;</span>
-            </v-list-tile-action>
+            <v-list-tile v-if="dados_contribuinte.utilizado.length > 0">
+              <v-list-tile-action>
+                <span class="text-danger">Utilizado: &nbsp;&nbsp;&nbsp;</span>
+              </v-list-tile-action>
 
-            <v-list-tile-content>
-              <v-list-tile-title>
-                <span class="text-secondary strong">R$ {{ dados_contribuinte.credito }}</span>
-              </v-list-tile-title>
-            </v-list-tile-content>
-    
-            <v-list-tile-action v-if="dados_contribuinte.credito != '0.00'">
-              <b-btn class="btn-shadow d-inline-flex align-items-center btn btn-success p-2"
-              variant="success" @click="usar_credito"
-              >Usar Crédito</b-btn>
-            </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  <span class="text-secondary strong">R$ {{ dados_contribuinte.utilizado }}</span>
+                </v-list-tile-title>
+              </v-list-tile-content>
 
-          </v-list-tile>
-          
-          <v-divider v-if="dados_contribuinte.utilizado.length > 0"></v-divider>
-
-          <v-list-tile v-if="dados_contribuinte.utilizado.length > 0">
-  
-            <v-list-tile-action>
-            <span class="text-danger">Utilizado: &nbsp;&nbsp;&nbsp;</span>
-            </v-list-tile-action>
-
-            <v-list-tile-content>
-              <v-list-tile-title>
-                <span class="text-secondary strong">R$ {{ dados_contribuinte.utilizado }}</span>
-              </v-list-tile-title>
-            </v-list-tile-content>
-    
-            <v-list-tile-content>
-              <v-list-tile-title>
-              <span class="text-danger">{{ dados_contribuinte.indicacao }}</span>
-              </v-list-tile-title>
-            </v-list-tile-content>
-
-          </v-list-tile>
-
-        </v-list>
-      </v-card>
-    </v-flex>
-
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  <span class="text-danger">{{ dados_contribuinte.indicacao }}</span>
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-card>
+      </v-flex>
 
       <v-flex xs12>
         <v-card>
           <v-card-title>
-            <span class="text-primary strong">{{ $t('label.lancamento') }} </span>
+            <span class="text-primary strong">{{ $t('label.lancamento') }}</span>
             <v-spacer></v-spacer>
-            <b-btn v-if="tipo_acesso == 'auditor'"
+            <b-btn
+              v-if="tipo_acesso == 'auditor'"
               class="btn-shadow d-inline-flex align-items-center btn btn-primary p-2"
               variant="primary"
               @click="add"
@@ -78,7 +72,13 @@
               hide-details
             ></v-text-field>
           </v-card-title>
-          <v-data-table :rows-per-page-items="rowsPerPageItems" :pagination.sync="pagination" :headers="columns" :items="row" :search="search">
+          <v-data-table
+            :rows-per-page-items="rowsPerPageItems"
+            :pagination.sync="pagination"
+            :headers="columns"
+            :items="row"
+            :search="search"
+          >
             <template v-slot:items="props">
               <td>{{ props.item.conta }}</td>
               <td>{{ props.item.tipo }}</td>
@@ -100,13 +100,44 @@
       </v-flex>
       <!-- /v-flex -->
 
-      <v-flex xs12>
+      <v-flex xs12 sm6>
         <v-card>
-          <v-card-title class="secondary">
-            <span class="headline white--text">Gráfico</span>
+          <v-card-title class="accent">
+            <span class="white--text">
+              Gráfico por
+              <span class="strong text-warning">Valor de Compra</span>
+            </span>
           </v-card-title>
           <v-card-text>
-            <graficos></graficos>
+            <grafico-valor-de-compra></grafico-valor-de-compra>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+
+      <v-flex xs12 sm6>
+        <v-card>
+          <v-card-title class="accent">
+            <span class="white--text">
+              Gráfico por
+              <span class="strong text-warning">Valor do Tributo</span>
+            </span>
+          </v-card-title>
+          <v-card-text>
+            <grafico-tributo></grafico-tributo>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+
+      <v-flex xs12 sm6>
+        <v-card>
+          <v-card-title class="accent">
+            <span class="white--text">
+              Gráfico por
+              <span class="strong text-warning">Valor do Crédito</span>
+            </span>
+          </v-card-title>
+          <v-card-text>
+            <grafico-credito></grafico-credito>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -288,12 +319,16 @@ import { desbloquear } from "@/api/conta";
 import { validar } from "@/api/contribuinte";
 import i18n from "@/i18n";
 
-import Graficos from "./components/Graficos";
+import GraficoValorDeCompra from "./components/GraficoValorDeCompra";
+import GraficoTributo from "./components/GraficoTributo";
+import GraficoCredito from "./components/GraficoCredito";
 
 export default {
   name: "NotaFiscal",
   components: {
-    'graficos': Graficos
+    "grafico-valor-de-compra": GraficoValorDeCompra,
+    "grafico-tributo": GraficoTributo,
+    "grafico-credito": GraficoCredito
   },
   data() {
     return {
@@ -303,9 +338,9 @@ export default {
         obrigatorio: i18n.t("erro.obrigatorio")
       },
       dados_contribuinte: {
-        credito: '',
-        indicacao: '',
-        utilizado: '',
+        credito: "",
+        indicacao: "",
+        utilizado: ""
       },
       dialog: false,
       radio: "cpf",
@@ -331,15 +366,15 @@ export default {
       pagination: {
         rowsPerPage: 20
       },
-      rowsPerPageItems: [20,30,40,50,{"text":"Todos","value":-1}],
+      rowsPerPageItems: [20, 30, 40, 50, { text: "Todos", value: -1 }],
       search: "",
       columns: [
         { text: "Conta", value: "conta" },
         { text: "Tipo", value: "tipo" },
         { text: "DT. Compra", value: "data" },
-        { text: "Vlr. Compra", value: "valor", align: 'right' },
-        { text: "Vlr. Tributo", value: "tributo", align: 'right' },
-        { text: "Vlr. Crédito", value: "credito", align: 'right' }
+        { text: "Vlr. Compra", value: "valor", align: "right" },
+        { text: "Vlr. Tributo", value: "tributo", align: "right" },
+        { text: "Vlr. Crédito", value: "credito", align: "right" }
       ],
       row: []
     };
@@ -397,7 +432,7 @@ export default {
       this.dialog = true;
     },
     reload() {
-      this.close()
+      this.close();
       this.form.data = {
         cpf_cnpj: "",
         contribuinte_address: null,
@@ -409,7 +444,7 @@ export default {
         bilhete: null,
         senha: null,
         address: null
-      }
+      };
     },
     close() {
       this.dialog = false;
@@ -424,7 +459,7 @@ export default {
     },
     save() {
       if (this.$refs.form.validate()) {
-        this.$store.commit('TOGGLE_LOADING');
+        this.$store.commit("TOGGLE_LOADING");
         this.form.data.address = auth.get().address;
         this.form.data.senha = auth.get().senha;
         this.form.data.bilhete = Date.now()
@@ -443,19 +478,23 @@ export default {
                   this.$store
                     .dispatch("adicionar_compra", this.form.data)
                     .then(() => {
-                      this.$store.commit('CLOSE_LOADING');
-                      swal(i18n.t("message.title"), 'Lançamento do contribuinte, efetuado com sucesso.', "success", { closeOnEsc: false, buttons: false,
-                      timer: 2000 }).then(() => {
-                        this.get()
-                        this.reload()
+                      this.$store.commit("CLOSE_LOADING");
+                      swal(
+                        i18n.t("message.title"),
+                        "Lançamento do contribuinte, efetuado com sucesso.",
+                        "success",
+                        { closeOnEsc: false, buttons: false, timer: 2000 }
+                      ).then(() => {
+                        this.get();
+                        this.reload();
                         if (this.form.add_novo) {
                           this.dialog = true;
                         }
                       });
                     })
                     .catch(error => {
-                      console.log(error)
-                      this.$store.commit('CLOSE_LOADING');
+                      console.log(error);
+                      this.$store.commit("CLOSE_LOADING");
                       swal(
                         i18n.t("erro.title"),
                         "Não foi possível efetuar esse lançamento. Favor verificar!",
@@ -466,8 +505,8 @@ export default {
                 } // end iF response;
               })
               .catch(error => {
-                console.log(error)
-                this.$store.commit('CLOSE_LOADING');
+                console.log(error);
+                this.$store.commit("CLOSE_LOADING");
                 swal(
                   i18n.t("erro.title"),
                   "Não foi possível desbloquear sua conta. Favor verificar!",
@@ -477,8 +516,8 @@ export default {
               });
           })
           .catch(error => {
-            console.log(error)
-            this.$store.commit('CLOSE_LOADING');
+            console.log(error);
+            this.$store.commit("CLOSE_LOADING");
             swal(
               i18n.t("erro.title"),
               "Não foi possível efetuar esse lançamento. Favor verificar!",
@@ -491,116 +530,143 @@ export default {
     get_contribuinte() {
       this.form.data.address = auth.get().address;
       this.form.data.senha = auth.get().senha;
-      if (auth.get().tipo == 'contribuinte') {
-        this.$store.dispatch("listar_contribuinte", this.form.data).then(response => {
-          this.dados_contribuinte.credito = response.credito
-          this.dados_contribuinte.indicacao = response.indicacao
-          this.dados_contribuinte.utilizado = response.utilizado != 'NaN' ? response.utilizado : ''
-        }).catch(error => {
-          console.log(error)
-          swal(
-            i18n.t("erro.title"),
-            "Ocorreu um erro ao carregar as informações do contribuinte.",
-            "error",
-            { closeOnEsc: false }
-          );
-        })
+      if (auth.get().tipo == "contribuinte") {
+        this.$store
+          .dispatch("listar_contribuinte", this.form.data)
+          .then(response => {
+            this.dados_contribuinte.credito = response.credito;
+            this.dados_contribuinte.indicacao = response.indicacao;
+            this.dados_contribuinte.utilizado =
+              response.utilizado != "NaN" ? response.utilizado : "";
+          })
+          .catch(error => {
+            console.log(error);
+            swal(
+              i18n.t("erro.title"),
+              "Ocorreu um erro ao carregar as informações do contribuinte.",
+              "error",
+              { closeOnEsc: false }
+            );
+          });
       } // end iF;
     },
     get() {
-      if (auth.get().tipo == 'contribuinte') {
-        this.columns.push({ text: "Bilhete", value: "bilhete" })
+      if (auth.get().tipo == "contribuinte") {
+        this.columns.push({ text: "Bilhete", value: "bilhete" });
       } // end iF;
-      this.$store.commit('TOGGLE_LOADING');
+      this.$store.commit("TOGGLE_LOADING");
       this.form.data.address = auth.get().address;
       this.form.data.senha = auth.get().senha;
       this.$store
         .dispatch("listar_compras", this.form.data)
         .then(response => {
-          this.$store.commit('CLOSE_LOADING');
+          this.$store.commit("CLOSE_LOADING");
           if (response != null) {
-            this.row = []
-            for (let i = 0; i < response['0'].length; i++) {
-
-              if (auth.get().tipo == 'contribuinte') {
-                if (response['0'][i].toLowerCase() === auth.get().address.toLowerCase()) {
+            this.row = [];
+            for (let i = 0; i < response["0"].length; i++) {
+              if (auth.get().tipo == "contribuinte") {
+                if (
+                  response["0"][i].toLowerCase() ===
+                  auth.get().address.toLowerCase()
+                ) {
                   this.row.push({
-                    conta: response['0'][i],
-                    tipo: response['1'][i] == 'icms' ? i18n.t("label.icms") : i18n.t("label.iss"),
-                    data: response['2'][i],
-                    valor: response['3'][i],
-                    tributo: response['4'][i],
-                    credito: response['5'][i],
-                    bilhete: response['6'][i]
-                  })  
+                    conta: response["0"][i],
+                    tipo:
+                      response["1"][i] == "icms"
+                        ? i18n.t("label.icms")
+                        : i18n.t("label.iss"),
+                    data: response["2"][i],
+                    valor: response["3"][i],
+                    tributo: response["4"][i],
+                    credito: response["5"][i],
+                    bilhete: response["6"][i]
+                  });
                 } // end iF;
-
               } else {
                 this.row.push({
-                  conta: response['0'][i],
-                  tipo: response['1'][i] == 'icms' ? i18n.t("label.icms") : i18n.t("label.iss"),
-                  data: response['2'][i],
-                  valor: response['3'][i],
-                  tributo: response['4'][i],
-                  credito: response['5'][i]
-                })
+                  conta: response["0"][i],
+                  tipo:
+                    response["1"][i] == "icms"
+                      ? i18n.t("label.icms")
+                      : i18n.t("label.iss"),
+                  data: response["2"][i],
+                  valor: response["3"][i],
+                  tributo: response["4"][i],
+                  credito: response["5"][i]
+                });
               } // end iF;
-              
             } // end iF
           }
         })
         .catch(error => {
-          console.log(error)
-          this.$store.commit('CLOSE_LOADING');
+          console.log(error);
+          this.$store.commit("CLOSE_LOADING");
           swal(
-              i18n.t("erro.title"),
-              "Ocorreu um erro ao carregar os lançamentos.",
-              "error",
-              { closeOnEsc: false }
-            );
+            i18n.t("erro.title"),
+            "Ocorreu um erro ao carregar os lançamentos.",
+            "error",
+            { closeOnEsc: false }
+          );
         });
     },
     usar_credito() {
       const data = {
         address: auth.get().address,
-        credito: '0.00',
-        indicacao: '',
+        credito: "0.00",
+        indicacao: "",
         utilizado: this.dados_contribuinte.credito
-      }
+      };
 
-      swal("Informe pra onde vai a indicação desse crédito: R$ " + this.dados_contribuinte.credito, {
-        content: "input",
-        closeOnEsc: false,
-        closeOnClickOutside: false
-      })
-      .then((value) => {
+      swal(
+        "Informe pra onde vai a indicação desse crédito: R$ " +
+          this.dados_contribuinte.credito,
+        {
+          content: "input",
+          closeOnEsc: false,
+          closeOnClickOutside: false
+        }
+      ).then(value => {
         if (value != null && value.length > 0) {
-          this.$store.commit('TOGGLE_LOADING');
+          this.$store.commit("TOGGLE_LOADING");
           if (this.dados_contribuinte.utilizado.length > 0) {
-            data.indicacao = this.dados_contribuinte.indicacao + ', ' + value
-            data.utilizado = (parseFloat(this.dados_contribuinte.utilizado) + parseFloat(data.utilizado)).toFixed(2).toString()
+            data.indicacao = this.dados_contribuinte.indicacao + ", " + value;
+            data.utilizado = (
+              parseFloat(this.dados_contribuinte.utilizado) +
+              parseFloat(data.utilizado)
+            )
+              .toFixed(2)
+              .toString();
           } else {
-            data.indicacao = value
+            data.indicacao = value;
           }
-          this.$store.dispatch('atualizar_contribuinte', data).then(() => {
-            this.$store.commit('CLOSE_LOADING');
-            swal(i18n.t("message.title"), 'Sua indicação foi processada com sucesso.', "success", { closeOnEsc: false, buttons: false,
-            timer: 2000 }).then(() => {
-              this.get_contribuinte()
+          this.$store
+            .dispatch("atualizar_contribuinte", data)
+            .then(() => {
+              this.$store.commit("CLOSE_LOADING");
+              swal(
+                i18n.t("message.title"),
+                "Sua indicação foi processada com sucesso.",
+                "success",
+                { closeOnEsc: false, buttons: false, timer: 2000 }
+              ).then(() => {
+                this.get_contribuinte();
+              });
+            })
+            .catch(error => {
+              console.log(error);
+              this.$store.commit("CLOSE_LOADING");
+              swal(
+                i18n.t("erro.title"),
+                "Ocorreu um erro ao processar sua indicação. Tente novamente!",
+                "error",
+                { closeOnEsc: false }
+              );
             });
-          }).catch(error => {
-              console.log(error)
-            this.$store.commit('CLOSE_LOADING');
-            swal(
-              i18n.t("erro.title"),
-              "Ocorreu um erro ao processar sua indicação. Tente novamente!",
-              "error",
-              { closeOnEsc: false }
-            );
-          })
         } else {
-          this.$store.commit('CLOSE_LOADING');
-          swal("Aviso", "Você precisa informar a indicação", "warning", { closeOnEsc: false });
+          this.$store.commit("CLOSE_LOADING");
+          swal("Aviso", "Você precisa informar a indicação", "warning", {
+            closeOnEsc: false
+          });
         }
       });
     }
