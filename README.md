@@ -96,6 +96,7 @@ Dentro da pasta app <br>
 - Na tela Lançamento (NF) selecione CPF ou CNPJ do contribuinte, preencha os campos solicitados e clique em SALVAR
 ```
 
+<br>
         O sistema retornará à tela principal mostrando a conta criada na Blockchain para aquele CPF/CNPJ e os respectivos dados         lançados.
 
 <br><br>
