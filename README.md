@@ -64,7 +64,8 @@ Dentro da pasta app <br>
     npm install
     npm run serve
 
-    acesse o app pelo endereço: http://localhost:8080
+<br>
+Acesse o app pelo endereço: http://localhost:8080
 
 <br><hr>
 
