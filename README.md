@@ -1,7 +1,7 @@
 # Ethereum Legal
 
 Trabalho apresentado ao curso de pós-graduação TECNOLOGIAS DISRUPTIVAS do IESB, para a disciplina IMPLEMENTAR CASES DE MERCADO EM BLOCKCHAIN, professor Flavio Henrique Moura Stakoviak.
-<br>
+<br><br>
 Este projeto, com escopo de MVP, demonstra a aplicação da tecnologia BLOCKCHAIN para a persistência de dados para o Programa Nota Legal DF.
 <br>
 Usando uma interface web para a simulação da geração de uma nota fiscal de mercadorias ou de serviços, o sistema calcula os valores dos impostos gerados e os respectivos créditos do contribuinte no Programa Nota Legal (muito embora estes valores não sejam os aplicados na realidade), registrando estes créditos numa Blockchain privada por meio de um Smart Contract Ethereum.
