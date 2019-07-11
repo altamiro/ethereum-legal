@@ -102,7 +102,7 @@ Acesse o app pelo endereço: http://localhost:8080/ http://localhost:8080
 ```
 
 <br>
-        O sistema retornará à tela principal mostrando a conta criada na Blockchain para aquele CPF/CNPJ e os respectivos dados         lançados.
+        O sistema retornará à tela principal mostrando a conta criada na Blockchain para aquele CPF/CNPJ e os respectivos dados lançados.
 <br><br>
 A conta criada é única para cada CPF/CNPJ informado no lançamento, garantindo assim que quaisquer créditos lançados para o CPF/CNPJ informado serão atribuídos à sua respectiva conta, independentemente de quantos lançamentos ou quais tipos de documentos fiscais sejam realizados.
 <br><br>
@@ -124,8 +124,7 @@ A conta criada será acessada no módulo CONTRIBUINTE utilizando o CPF/CNPJ util
 
 <br>
         Se tiver algum lançamento para o número informado o sistema apresentará as informações, se não, informará que não este contribuinte está cadastrado
-<br>
-<br>
+<br><br>
         Uma vez tendo uma conta cadastrada para o CPF/CNPJ informado o sistema apresentará a tela "Informações da sua conta(Crédito) com o saldo disponível, a lista de lançamentos com os respectivos valoress e os números dos bilhetes para participação no sorteio do Nota Legal e, também, o botão "Usar Crédito"
 
 #### USAR CRÉDITO
