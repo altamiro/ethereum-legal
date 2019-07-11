@@ -103,7 +103,6 @@ Acesse o app pelo endereço: http://localhost:8080/ http://localhost:8080
 
 <br>
         O sistema retornará à tela principal mostrando a conta criada na Blockchain para aquele CPF/CNPJ e os respectivos dados         lançados.
-
 <br><br>
 A conta criada é única para cada CPF/CNPJ informado no lançamento, garantindo assim que quaisquer créditos lançados para o CPF/CNPJ informado serão atribuídos à sua respectiva conta, independentemente de quantos lançamentos ou quais tipos de documentos fiscais sejam realizados.
 <br><br>
@@ -111,7 +110,9 @@ A conta criada será acessada no módulo CONTRIBUINTE utilizando o CPF/CNPJ util
 
 #### Para navegar no módulo CONTRIBUINTE:
 
-        Após os lançamentos serem efetuados é possível navegar pelas contas dos contribuintes.
+```
+- Após os lançamentos serem efetuados é possível navegar pelas contas dos contribuintes.
+```
 
 #### VISUALIZANDO AS INFORMAÇÕES NO MÓDULO CONTRIBUINTE
 
