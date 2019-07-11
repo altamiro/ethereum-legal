@@ -65,7 +65,7 @@ Dentro da pasta app <br>
     npm run serve
 
 <br>
-Acesse o app pelo endereço: http://localhost:8080
+Acesse o app pelo endereço: https://nodejs.org/en http://localhost:8080
 
 <br><hr>
 
