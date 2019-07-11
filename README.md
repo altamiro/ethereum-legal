@@ -122,7 +122,6 @@ A conta criada será acessada no módulo CONTRIBUINTE utilizando o CPF/CNPJ util
 ```
 - Na tela inicial selecione CONTRIBUINTE
 - Na tela seguinte selecione CPF ou CNPJ e informe o número e clique em ACESSAR
-
 ```
 
 <br>
@@ -137,5 +136,5 @@ O sistema está programado para utilização total do crédito.<br>
 ```
 - Ao clicar no botão "Usar Crédito" o sistema solicita que informe a destinação do crédito (IPTU,IPVA ou CONTA CORRENTE)
 - Clique em OK
-    O sistema apresentará na tela o registro da utilização dos créditos e o saldo disponível atualizado
+- O sistema apresentará na tela o registro da utilização dos créditos e o saldo disponível atualizado
 ```
