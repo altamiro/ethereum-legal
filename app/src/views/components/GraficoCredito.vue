@@ -6,7 +6,12 @@
 <script>
 import echarts from "echarts";
 import * as d3 from "d3";
-require("echarts/theme/macarons"); // echarts theme
+require("echarts/theme/dark");
+require("echarts/theme/infographic");
+require("echarts/theme/macarons");
+require("echarts/theme/roma");
+require("echarts/theme/shine");
+require("echarts/theme/vintage");
 import { debounce, groupBy } from "@/utils";
 import auth from "@/authService";
 import i18n from "@/i18n";
@@ -160,7 +165,7 @@ export default {
                     return {
                       count: v.length,
                       total: d3.sum(v, function(d) {
-                        return d.credito;
+                        return d.credito.toFixed(2);
                       })
                     };
                   })

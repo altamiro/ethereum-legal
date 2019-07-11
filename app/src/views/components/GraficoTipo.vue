@@ -6,7 +6,12 @@
 <script>
 import echarts from "echarts";
 import * as d3 from "d3";
-require("echarts/theme/macarons"); // echarts theme
+require("echarts/theme/dark");
+require("echarts/theme/infographic");
+require("echarts/theme/macarons");
+require("echarts/theme/roma");
+require("echarts/theme/shine");
+require("echarts/theme/vintage");
 import { debounce, groupBy } from "@/utils";
 import auth from "@/authService";
 import i18n from "@/i18n";
@@ -29,24 +34,7 @@ export default {
   },
   data() {
     return {
-      chart: null,
-      labelOption: {
-        normal: {
-          show: true,
-          position: "insideBottom",
-          distance: 15,
-          align: "left",
-          verticalAlign: "middle",
-          rotate: 90,
-          formatter: "{c}  {name|{a}}",
-          fontSize: 12,
-          rich: {
-            name: {
-              textBorderColor: "#fff"
-            }
-          }
-        }
-      }
+      chart: null
     };
   },
   mounted() {
@@ -68,32 +56,44 @@ export default {
   },
   methods: {
     initChart(data) {
-      this.chart = echarts.init(this.$el);
+      this.chart = echarts.init(this.$el, "dark");
       this.chart.setOption({
         tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "shadow"
-          }
+          trigger: "item",
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         legend: {
+          orient: "vertical",
+          x: "left",
           data: data.legend
         },
-        toolbox: {},
-        calculable: true,
-        xAxis: [
+        series: [
           {
-            type: "category",
-            axisTick: { show: false },
-            data: data.xaxis
+            name: "Tipo",
+            type: "pie",
+            radius: ["30%", "70%"],
+            avoidLabelOverlap: false,
+            label: {
+              normal: {
+                show: false,
+                position: "center"
+              },
+              emphasis: {
+                show: true,
+                textStyle: {
+                  fontSize: "30",
+                  fontWeight: "bold"
+                }
+              }
+            },
+            labelLine: {
+              normal: {
+                show: false
+              }
+            },
+            data: data.series
           }
-        ],
-        yAxis: [
-          {
-            type: "value"
-          }
-        ],
-        series: data.series
+        ]
       });
     },
     get() {
@@ -116,32 +116,21 @@ export default {
                 ) {
                   itens.push({
                     tipo: response["1"][i],
-                    ano: response["2"][i].split("/")[2],
-                    valor: parseFloat(response["3"][i]),
-                    tributo: parseFloat(response["4"][i]),
-                    credito: parseFloat(response["5"][i])
+                    valor: parseFloat(response["3"][i])
                   });
                 } // end iF;
               } else {
                 itens.push({
                   tipo: response["1"][i],
-                  ano: response["2"][i].split("/")[2],
-                  valor: parseFloat(response["3"][i]),
-                  tributo: parseFloat(response["4"][i]),
-                  credito: parseFloat(response["5"][i])
+                  valor: parseFloat(response["3"][i])
                 });
               } // end iF;
             } // end for
 
             if (itens.length > 0) {
               const legend = [];
-              const xaxis_data = [];
               const series = [];
               const metrics = [];
-
-              Object.entries(groupBy(itens, "ano")).forEach(([key, value]) => {
-                xaxis_data.push(key);
-              });
 
               Object.entries(groupBy(itens, "tipo")).forEach(([key, value]) => {
                 legend.push(
@@ -150,9 +139,6 @@ export default {
 
                 let expenseMetrics = d3
                   .nest()
-                  .key(function(d) {
-                    return d.ano;
-                  })
                   .key(function(d) {
                     return d.tipo;
                   })
@@ -165,60 +151,26 @@ export default {
                     };
                   })
                   .entries(value);
-
                 metrics.push(expenseMetrics);
               });
-
-              const data = {
-                icms: [],
-                iss: []
-              };
+              const data = [];
 
               if (metrics.length > 0) {
                 for (let i = 0; i < metrics.length; i++) {
-                  const element1 = metrics[i];
-                  if (element1.length > 0) {
-                    const icms = [];
-                    const iss = [];
-                    for (let x = 0; x < element1.length; x++) {
-                      const element2 = element1[x];
-                      if (element2.values[0].key === "icms") {
-                        icms.push(element2.values[0].value.total.toFixed(2));
-                      } else {
-                        iss.push(element2.values[0].value.total.toFixed(2));
-                      }
-                    } // end for
-                    if (icms.length > 0) {
-                      data["icms"] = icms;
-                    }
-                    if (iss.length > 0) {
-                      data["iss"] = iss;
-                    }
-                  } // end iF;
-                } // end iF;
-                if (data["icms"].length > data["iss"].length) {
-                  data["iss"].push(parseFloat("0.00"));
-                }
-
-                if (data["iss"].length > data["icms"].length) {
-                  data["icms"].push(parseFloat("0.00"));
+                  const element = metrics[i];
+                  data.push({
+                    value: element[0].value.total.toFixed(2),
+                    name:
+                      element[0].key == "icms"
+                        ? i18n.t("label.icms")
+                        : i18n.t("label.iss")
+                  });
                 }
               } // end for;
 
-              for (let i = 0; i < legend.length; i++) {
-                const element = legend[i];
-                series.push({
-                  name: element,
-                  type: "bar",
-                  label: this.labelOption,
-                  data: element.length == 13 ? data["iss"] : data["icms"]
-                });
-              }
-
               const param_data = {
                 legend: legend,
-                xaxis: xaxis_data,
-                series: series
+                series: data
               };
               this.initChart(param_data);
             } // end iF;

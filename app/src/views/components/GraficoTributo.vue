@@ -160,7 +160,7 @@ export default {
                     return {
                       count: v.length,
                       total: d3.sum(v, function(d) {
-                        return d.tributo;
+                        return d.tributo.toFixed(2);
                       })
                     };
                   })

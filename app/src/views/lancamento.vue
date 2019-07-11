@@ -105,6 +105,20 @@
           <v-card-title class="accent">
             <span class="white--text">
               Gráfico por
+              <span class="strong text-warning">Tipo (Valor de Compra)</span>
+            </span>
+          </v-card-title>
+          <v-card-text>
+            <grafico-tipo ref="grafico_tipo"></grafico-tipo>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+
+      <v-flex xs12 sm6>
+        <v-card>
+          <v-card-title class="accent">
+            <span class="white--text">
+              Gráfico por
               <span class="strong text-warning">Valor de Compra</span>
             </span>
           </v-card-title>
@@ -322,13 +336,15 @@ import i18n from "@/i18n";
 import GraficoValorDeCompra from "./components/GraficoValorDeCompra";
 import GraficoTributo from "./components/GraficoTributo";
 import GraficoCredito from "./components/GraficoCredito";
+import GraficoTipo from "./components/GraficoTipo";
 
 export default {
   name: "NotaFiscal",
   components: {
     "grafico-valor-de-compra": GraficoValorDeCompra,
     "grafico-tributo": GraficoTributo,
-    "grafico-credito": GraficoCredito
+    "grafico-credito": GraficoCredito,
+    "grafico-tipo": GraficoTipo
   },
   data() {
     return {
