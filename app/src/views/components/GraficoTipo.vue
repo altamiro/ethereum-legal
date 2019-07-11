@@ -57,8 +57,9 @@ export default {
   },
   methods: {
     initChart(data) {
-      this.chart = echarts.init(this.$el, "dark");
+      this.chart = echarts.init(this.$el);
       this.chart.setOption({
+        color: ["#BDB76B", "#4682B4"],
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b}: {c} ({d}%)"

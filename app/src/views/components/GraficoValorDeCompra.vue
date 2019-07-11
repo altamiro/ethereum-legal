@@ -71,6 +71,7 @@ export default {
     initChart(data) {
       this.chart = echarts.init(this.$el);
       this.chart.setOption({
+        color: ["#FF6347", "#00008B"],
         tooltip: {
           trigger: "axis",
           axisPointer: {

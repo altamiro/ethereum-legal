@@ -102,7 +102,7 @@
 
       <v-flex xs12 sm6>
         <v-card>
-          <v-card-title class="accent">
+          <v-card-title class="primary">
             <span class="white--text">
               Gráfico por
               <span class="strong text-warning">Tipo (Valor de Compra)</span>
@@ -116,7 +116,7 @@
 
       <v-flex xs12 sm6>
         <v-card>
-          <v-card-title class="accent">
+          <v-card-title class="primary">
             <span class="white--text">
               Gráfico por
               <span class="strong text-warning">Valor de Compra</span>
@@ -130,7 +130,7 @@
 
       <v-flex xs12 sm6>
         <v-card>
-          <v-card-title class="accent">
+          <v-card-title class="primary">
             <span class="white--text">
               Gráfico por
               <span class="strong text-warning">Valor do Tributo</span>
@@ -144,7 +144,7 @@
 
       <v-flex xs12 sm6>
         <v-card>
-          <v-card-title class="accent">
+          <v-card-title class="primary">
             <span class="white--text">
               Gráfico por
               <span class="strong text-warning">Valor do Crédito</span>
@@ -226,7 +226,17 @@
                   </div>
                   <div class="col-md-6">
                     <div class="position-relative form-group">
-                      <v-text-field
+                      <label>
+                        Data da Nota Fiscal
+                        <br />
+                        <date-picker
+                          v-model="form.data.data"
+                          type="date"
+                          lang="pt-br"
+                          format="DD/MM/YYYY"
+                        ></date-picker>
+                      </label>
+                      <!-- <v-text-field
                         type="text"
                         return-masked-value
                         mask="##/##/####"
@@ -235,7 +245,7 @@
                         label="Data da Nota Fiscal"
                         placeholder="Data da Nota Fiscal"
                         required
-                      ></v-text-field>
+                      ></v-text-field>-->
                     </div>
                   </div>
                 </div>
@@ -327,6 +337,7 @@
 <!-- /template -->
 
 <script>
+import DatePicker from "vue2-datepicker";
 import swal from "sweetalert";
 import auth from "@/authService";
 import { desbloquear } from "@/api/conta";
@@ -341,6 +352,7 @@ import GraficoTipo from "./components/GraficoTipo";
 export default {
   name: "NotaFiscal",
   components: {
+    DatePicker,
     "grafico-valor-de-compra": GraficoValorDeCompra,
     "grafico-tributo": GraficoTributo,
     "grafico-credito": GraficoCredito,
@@ -474,10 +486,11 @@ export default {
       this.save();
     },
     save() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.form.data.data != null) {
         this.$store.commit("TOGGLE_LOADING");
         this.form.data.address = auth.get().address;
         this.form.data.senha = auth.get().senha;
+        this.form.data.data = this.form.data.data.toLocaleDateString();
         this.form.data.bilhete = Date.now()
           .toString()
           .substring(
