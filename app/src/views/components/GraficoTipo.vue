@@ -130,7 +130,6 @@ export default {
 
             if (itens.length > 0) {
               const legend = [];
-              const series = [];
               const metrics = [];
 
               Object.entries(groupBy(itens, "tipo")).forEach(([key, value]) => {
