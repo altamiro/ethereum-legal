@@ -418,10 +418,16 @@ export default {
         let valor = parseInt(newVal);
         if (this.form.data.tipo == "icms") {
           this.form.data.tributo = ((valor * 18) / 100).toFixed(2);
-          this.form.data.credito = ((valor * 7.5) / 100).toFixed(2);
+          this.form.data.credito = (
+            (this.form.data.tributo * 7.5) /
+            100
+          ).toFixed(2);
         } else {
           this.form.data.tributo = ((valor * 5) / 100).toFixed(2);
-          this.form.data.credito = ((valor * 1.5) / 100).toFixed(2);
+          this.form.data.credito = (
+            (this.form.data.tributo * 1.5) /
+            100
+          ).toFixed(2);
         } // end iF;
       } else {
         this.form.data.tributo = null;
